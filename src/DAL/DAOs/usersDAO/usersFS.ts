@@ -15,6 +15,12 @@ export default class UsersFS implements IUsersDAO {
     if (user) return user;
     else throw new Error("User not found");
   }
+  async getUserByEmail(email: string) {
+    const allUser = await this.getAllUsers();
+    const user = allUser.find((item) => item.email === email);
+    if (user) return user;
+    else throw new Error("User not found");
+  }
   async updateUser(id: string, obj: IUser) {
     const allUser = await this.getAllUsers();
     const user = allUser.find((item) => item.id === id);

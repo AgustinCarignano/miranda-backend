@@ -778,5 +778,17 @@
     "status": "INACTIVE",
     "role": "Room Services",
     "password": "68e2a2c7cac71e7e7f102d7904d131a9c6d1516b"
+  },
+  {
+    "photo": "https://i.imgur.com/wcT5ydV.jpg",
+    "fullName": "Agustin Carignano",
+    "id": "278467209-2",
+    "email": "agustinC",
+    "startDate": 1657005200000,
+    "description": "Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    "contact": "526-666-8641",
+    "status": "ACTIVE",
+    "role": "Manager",
+    "password": "$2b$12$ct7zVtqxSMPJ5pPuYk/UFe7lpyqaPnm9hLM/BYOv2qSGGEIYBUx/W"
   }
 ]

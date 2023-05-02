@@ -9,4 +9,5 @@ export default {
     Secret: process.env.JWT_SECRET ?? "",
     Exp: process.env.COOKIE_EXP ?? "",
   },
+  session: process.env.SESSION_SECRET ?? "",
 } as const;

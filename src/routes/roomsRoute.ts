@@ -3,9 +3,9 @@ import roomsController from "@src/controllers/roomsController";
 
 const router = Router();
 
-router.get("/", roomsController.getAllRooms);
+router.get("/all", roomsController.getAllRooms);
 router.get("/:id", roomsController.getRoomDetail);
-router.post("/", roomsController.createRoom);
+router.post("/add", roomsController.createRoom);
 router.put("/:id", roomsController.updateRoom);
 router.delete("/:id", roomsController.deleteRoom);
 

@@ -12,6 +12,10 @@ class UsersService {
     const user = await this.dao.getUserDetail(id);
     return user;
   }
+  async getUserByEmail(email: string) {
+    const user = await this.dao.getUserByEmail(email);
+    return user;
+  }
   async updateUser(id: string, UserObj: IUser) {
     const newUser = await this.dao.updateUser(id, UserObj);
     return newUser;
