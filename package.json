@@ -7,7 +7,8 @@
     "lint:tests": "npx eslint --ext .ts spec/",
     "start": "node -r module-alias/register ./dist --env=production",
     "dev": "nodemon",
-    "test": "nodemon --config ./spec/nodemon.json",
+    "test": "jest",
+    "oldTest": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec"
   },
   "nodemonConfig": {
@@ -19,6 +20,22 @@
       "src/public"
     ],
     "exec": "./node_modules/.bin/ts-node --files -r tsconfig-paths/register ./src"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "verbose": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "moduleNameMapper": {
+      "@src/(.*)": "<rootDir>/src/$1"
+    }
   },
   "_moduleAliases": {
     "@src": "dist"
@@ -32,6 +49,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
     "passport": "^0.6.0",

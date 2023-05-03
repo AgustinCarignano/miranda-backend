@@ -1,13 +1,18 @@
 import bookingsService from "@src/services/bookingsService";
 import { IBookings } from "@src/types/bookings";
 import { IReq, IRes } from "@src/types/request";
+import { NextFunction } from "express";
 
 class BookingsController {
   async getAllBookings(_req: IReq<IBookings>, res: IRes<IBookings[]>) {
     const bookings = await bookingsService.getAllBookings();
     res.json({ message: "Success getting all booking", payload: bookings });
   }
-  async getBookingDetail(req: IReq<IBookings>, res: IRes<IBookings>) {
+  async getBookingDetail(
+    req: IReq<IBookings>,
+    res: IRes<IBookings | null>,
+    next: NextFunction
+  ) {
     const { id } = req.params;
     const booking = await bookingsService.getBookingDetail(id);
     res.json({ message: "Success getting the booking", payload: booking });

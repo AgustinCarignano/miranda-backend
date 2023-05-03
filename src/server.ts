@@ -4,11 +4,13 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "passport";
+import "express-async-errors";
 import routes from "@src/routes/index";
 
 import "@src/middlewares/passportMiddleware";
 import envVars from "./envVars";
 import { isAuth } from "./middlewares/isAuthMiddleware";
+import { handleError } from "./middlewares/errorMiddleware";
 
 const app = express();
 
@@ -35,5 +37,7 @@ app.use("/api/users", isAuth, routes.usersRouter);
 app.use("/api/contacts", isAuth, routes.contactsRouter);
 app.use("/api/auth", routes.authRouter);
 app.use("/api/public", routes.publicRouter);
+
+app.use(handleError);
 
 export default app;

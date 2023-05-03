@@ -5,6 +5,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
 import bcryptUtils from "@src/utils/bcryptUtils";
+import { CustomError } from "@src/utils/error/customError";
+import { HttpCode } from "@src/utils/error/errorEnums";
 
 passport.use(
   "login",
@@ -36,7 +38,14 @@ passport.use(
       secretOrKey: envVars.jwt.Secret,
     },
     async (payload: { user: IUser }, done) => {
-      done(null, payload.user);
+      try {
+        done(null, payload.user);
+      } catch (error) {
+        throw new CustomError({
+          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+          description: error.message,
+        });
+      }
     }
   )
 );

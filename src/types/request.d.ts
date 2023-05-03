@@ -10,5 +10,5 @@ export interface IReq<T> extends e.Request {
 }
 
 export interface IRes<T> extends e.Response {
-  json: Send<{ message: string; payload: T }, this>;
+  json: Send<{ message: string; payload?: T }, this>;
 }

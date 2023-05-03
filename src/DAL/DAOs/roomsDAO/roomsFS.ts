@@ -1,6 +1,8 @@
 import { IRoom, IRoomsDAO } from "@src/types/rooms";
 import fs from "fs-extra";
 import { __rootDir } from "@src/utils/pathUtils";
+import { CustomError } from "@src/utils/error/customError";
+import { HttpCode } from "@src/utils/error/errorEnums";
 
 export default class RoomsFS implements IRoomsDAO {
   path: string;
@@ -13,10 +15,23 @@ export default class RoomsFS implements IRoomsDAO {
     return data;
   }
   async getRoomDetail(id: string) {
-    const allRooms = await this.getAllRooms();
-    const room = allRooms.find((item) => item.id === id);
-    if (room) return room;
-    else throw new Error("Room not found");
+    try {
+      const allRooms = await this.getAllRooms();
+      const room = allRooms.find((item) => item.id === id);
+      if (!room)
+        throw new CustomError({
+          httpCode: HttpCode.NOT_FOUND,
+          description: "Room not found",
+        });
+      return room;
+    } catch (error) {
+      if (error instanceof CustomError) throw error;
+      else
+        throw new CustomError({
+          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+          description: error.message,
+        });
+    }
   }
   async updateRoom(id: string, obj: IRoom) {
     const allRooms = await this.getAllRooms();
