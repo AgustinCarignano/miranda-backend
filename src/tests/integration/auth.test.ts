@@ -7,7 +7,7 @@ const user = {
 
 describe("Private endpoints", () => {
   it("should return a 401 code status and a message if no token is passed in the request", async () => {
-    const res = await request.get("/api/bookings/all");
+    const res = await request.get("/api/bookings/");
 
     expect(res.statusCode).toBe(401);
     expect(res.body.description).toBe(
@@ -25,7 +25,7 @@ describe("Private endpoints", () => {
       .expect("Content-Type", /json/);
 
     await request
-      .get("/api/bookings/all")
+      .get("/api/bookings/")
       .set("Authorization", "bearer " + res.body.payload)
       .expect(200);
   });

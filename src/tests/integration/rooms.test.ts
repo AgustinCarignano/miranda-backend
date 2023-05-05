@@ -13,9 +13,9 @@ describe("Rooms endpoint", () => {
     token = (await request.post("/api/auth/login").send(user)).body.payload;
   });
 
-  it("Made a get to '.../all' endpoint should return an array of objects of IRoom type", async () => {
+  it("Made a get to '.../' endpoint should return an array of objects of IRoom type", async () => {
     const res = await request
-      .get(`${baseUrl}/all`)
+      .get(`${baseUrl}/`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -33,9 +33,9 @@ describe("Rooms endpoint", () => {
     expect(res.body.payload).toMatchObject<IRoom>;
     expect(res.body.payload).toMatchObject(roomObjTest);
   });
-  it("Made a post to '.../add' create a new room object", async () => {
+  it("Made a post to '.../' create a new room object", async () => {
     const res = await request
-      .post(`${baseUrl}/add`)
+      .post(`${baseUrl}/`)
       .set("Authorization", `bearer ${token}`)
       .send(newRoomTest);
 

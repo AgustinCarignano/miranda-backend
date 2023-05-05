@@ -16,9 +16,9 @@ router.get("/", (_req, res) => {
       Bookings: {
         baseURL: "/api/bookings",
         Methods: {
-          GetAll: "GET ---> /all ---> returns all bookings",
+          GetAll: "GET ---> / ---> returns all bookings",
           GetOne: "GET ---> /:id ---> returns one booking",
-          AddOne: "POST ---> /add ---> create a new booking",
+          AddOne: "POST ---> / ---> create a new booking",
           UpdateOne: "PUT ---> /:id ---> update one booking",
           DelteOne: "DELETE ---> /:id ---> delete one booking",
         },
@@ -26,9 +26,9 @@ router.get("/", (_req, res) => {
       Rooms: {
         baseURL: "/api/rooms",
         Methods: {
-          GetAll: "GET ---> /all ---> returns all rooms",
+          GetAll: "GET ---> / ---> returns all rooms",
           GetOne: "GET ---> /:id ---> returns one room",
-          AddOne: "POST ---> /add ---> create a new room",
+          AddOne: "POST ---> / ---> create a new room",
           UpdateOne: "PUT ---> /:id ---> update one room",
           DelteOne: "DELETE ---> /:id ---> delete one room",
         },
@@ -36,9 +36,9 @@ router.get("/", (_req, res) => {
       Users: {
         baseURL: "/api/users",
         Methods: {
-          GetAll: "GET ---> /all ---> returns all users",
+          GetAll: "GET ---> / ---> returns all users",
           GetOne: "GET ---> /:id ---> returns one user",
-          AddOne: "POST ---> /add ---> create a new user",
+          AddOne: "POST ---> / ---> create a new user",
           UpdateOne: "PUT ---> /:id ---> update one user",
           DelteOne: "DELETE ---> /:id ---> delete one user",
         },
@@ -46,7 +46,7 @@ router.get("/", (_req, res) => {
       Contact: {
         baseURL: "/api/contacts",
         Methods: {
-          GetAll: "GET ---> /all ---> returns all contacts",
+          GetAll: "GET ---> / ---> returns all contacts",
           UpdateOne: "PUT ---> /:id ---> update one contact",
         },
       },

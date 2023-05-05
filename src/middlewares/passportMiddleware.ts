@@ -1,5 +1,5 @@
 import envVars from "@src/envVars";
-import usersService from "@src/services/usersService";
+import DAOs from "@src/DAL/DAOs/factory";
 import { IUser } from "@src/types/users";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
@@ -17,7 +17,7 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        const user = await usersService.getUserByEmail(email);
+        const user = await DAOs.UsersDAO.getUserByEmail(email);
         if (!user) return done(null, false, { message: "User not found" });
         const isValidPass = await bcryptUtils.compare(password, user.password);
         if (!isValidPass)
@@ -55,6 +55,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (SerUser: IUser, done) => {
-  const user = await usersService.getUserDetail(SerUser.id);
+  const user = await DAOs.UsersDAO.getUserDetail(SerUser.id);
   done(null, user);
 });

@@ -5,10 +5,7 @@ import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
 export default class BookingsFS implements IBookingsDAO {
-  path: string;
-  constructor() {
-    this.path = `${__rootDir}/src/jsonData/bookingsData.json`;
-  }
+  path = `${__rootDir}/src/jsonData/bookingsData.json`;
 
   async getAllBookings() {
     try {
@@ -52,7 +49,7 @@ export default class BookingsFS implements IBookingsDAO {
           httpCode: HttpCode.NOT_FOUND,
           description: "Booking not found",
         });
-      const newBooking = { ...booking, ...obj, id: booking.id };
+      const newBooking = { ...booking, ...obj, id };
       const newArray = allBookings.map((item) => {
         if (item.id === id) return newBooking;
         else return item;
