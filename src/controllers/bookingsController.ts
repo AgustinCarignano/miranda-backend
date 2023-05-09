@@ -1,7 +1,8 @@
 import DAOs from "@src/DAL/DAOs/factory";
 import { IBookings } from "@src/types/bookings";
 import { IReq, IRes } from "@src/types/request";
-import checkProperties from "@src/utils/checkPropertiesUtils";
+//import checkProperties from "@src/utils/checkPropertiesUtils";
+import { validateUtils } from "@src/utils/validate";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
@@ -20,26 +21,45 @@ class BookingsController {
   async updateBooking(req: IReq<IBookings>, res: IRes<IBookings>) {
     const { id } = req.params;
     const obj = req.body;
-    const isValidObj = checkProperties.isValidBooking(obj);
-    if (!isValidObj)
+    try {
+      const validatedBooking = await validateUtils.bookingSchema.validateAsync(
+        obj,
+        { abortEarly: false }
+      );
+      const newBooking = await DAOs.BookingsDAO.updateBooking(
+        id,
+        validatedBooking
+      );
+      res.json({
+        message: "Success updating the booking",
+        payload: newBooking,
+      });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "Bookings object has a wrong format",
+        description: error.message,
       });
-    const newBooking = await DAOs.BookingsDAO.updateBooking(id, obj);
-    res.json({ message: "Success updating the booking", payload: newBooking });
+    }
   }
 
   async createBooking(req: IReq<IBookings>, res: IRes<IBookings>) {
     const obj = req.body;
-    const isValidObj = checkProperties.isValidBooking(obj);
-    if (!isValidObj)
+    try {
+      const validatedBooking = await validateUtils.bookingSchema.validateAsync(
+        obj,
+        { abortEarly: false }
+      );
+      const newBooking = await DAOs.BookingsDAO.createBooking(validatedBooking);
+      res.json({
+        message: "Success creating the booking",
+        payload: newBooking,
+      });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "Bookings object has a wrong format",
+        description: error.message,
       });
-    const newBooking = await DAOs.BookingsDAO.createBooking(obj);
-    res.json({ message: "Success creating the booking", payload: newBooking });
+    }
   }
 
   async deleteBooking(req: IReq<IBookings>, res: IRes<string>) {

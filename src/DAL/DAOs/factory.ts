@@ -2,11 +2,15 @@ import envVars from "@src/envVars";
 import BookingsFS from "./bookingsDAO/bookingsFS";
 import RoomsFS from "./roomsDAO/roomsFS";
 import UsersFS from "./usersDAO/usersFS";
+import ContatcsFS from "./contactsDAO/contactsFS";
+import BookingsSQL from "./bookingsDAO/bookingsSQL";
+import RoomSQL from "./roomsDAO/roomsSQL";
+import UsersSQL from "./usersDAO/usersSQL";
+import ContactsSQL from "./contactsDAO/contactsSQL";
 import { IBookingsDAO } from "@src/types/bookings";
 import { IRoomsDAO } from "@src/types/rooms";
 import { IUsersDAO } from "@src/types/users";
 import { IContactDAO } from "@src/types/contacts";
-import ContatcsFS from "./contactsDAO/contactsFS";
 
 let BookingsDAO: IBookingsDAO;
 let RoomsDAO: IRoomsDAO;
@@ -20,7 +24,12 @@ switch (envVars.Dao) {
     UsersDAO = new UsersFS();
     ContactsDAO = new ContatcsFS();
     break;
-
+  case "MySQL":
+    BookingsDAO = new BookingsSQL();
+    RoomsDAO = new RoomSQL();
+    UsersDAO = new UsersSQL();
+    ContactsDAO = new ContactsSQL();
+    break;
   default:
     BookingsDAO = new BookingsFS();
     RoomsDAO = new RoomsFS();

@@ -1,9 +1,24 @@
-export interface IUser {
+import { RowDataPacket } from "mysql2";
+
+export interface IUserSQL extends RowDataPacket {
+  id: number | string;
   photo: string;
   fullName: string;
-  id: string;
   email: string;
-  startDate: number;
+  startDate: number | string;
+  description: string;
+  contact: string;
+  status: string;
+  role: string;
+  password: string;
+}
+
+export interface IUser {
+  id: number | string;
+  photo: string;
+  fullName: string;
+  email: string;
+  startDate: number | string;
   description: string;
   contact: string;
   status: string;

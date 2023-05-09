@@ -1,14 +1,30 @@
-export interface IBookings {
-  id: string;
+import { RowDataPacket } from "mysql2";
+
+export interface IBookingsSQL extends RowDataPacket {
+  id: number;
   guest: string;
   specialRequest: string;
-  orderDate: number;
+  orderDate: string;
   roomType: string;
   status: string;
-  checkIn: number;
-  checkOut: number;
-  roomId: string;
-  roomNumber: string;
+  checkIn: string;
+  checkOut: string;
+  roomId: number;
+  roomNumber: number;
+  roomImg: string;
+}
+
+export interface IBookings {
+  id: string | number;
+  guest: string;
+  specialRequest: string;
+  orderDate: string | number;
+  roomType: string;
+  status: string;
+  checkIn: string | number;
+  checkOut: string | number;
+  roomId: string | number;
+  roomNumber: number;
   roomImg: string;
 }
 

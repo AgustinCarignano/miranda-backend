@@ -1,13 +1,27 @@
+import { RowDataPacket } from "mysql2";
+
 export interface IContact {
-  id: string;
+  id: string | number;
   fullName: string;
   email: string;
   phone: string;
   subject: string;
   message: string;
-  date: number;
-  read: boolean;
+  date: string | number;
+  _read: boolean;
   archived: boolean;
+}
+
+export interface IContactSQL extends RowDataPacket {
+  id: string | number;
+  fullName: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  date: string | number;
+  _read: number;
+  archived: number;
 }
 
 export interface IContactDAO {

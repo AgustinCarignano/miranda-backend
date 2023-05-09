@@ -1,7 +1,8 @@
 import DAOs from "@src/DAL/DAOs/factory";
 import { IContact } from "@src/types/contacts";
 import { IReq, IRes } from "@src/types/request";
-import checkProperties from "@src/utils/checkPropertiesUtils";
+//import checkProperties from "@src/utils/checkPropertiesUtils";
+import { validateUtils } from "@src/utils/validate";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
@@ -13,14 +14,25 @@ class ContactsController {
   async updateContact(req: IReq<IContact>, res: IRes<IContact>) {
     const { id } = req.params;
     const obj = req.body;
-    const isValidContactObj = checkProperties.isValidContact(obj);
-    if (!isValidContactObj)
+    try {
+      const validatedContact = await validateUtils.contactSchema.validateAsync(
+        obj,
+        { abortEarly: false }
+      );
+      const newContact = await DAOs.ContactsDAO.updateContact(
+        id,
+        validatedContact
+      );
+      res.json({
+        message: "Success updating the contact",
+        payload: newContact,
+      });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "Contact object has a wrong format",
+        description: error.message,
       });
-    const newContact = await DAOs.ContactsDAO.updateContact(id, obj);
-    res.json({ message: "Success updating the contact", payload: newContact });
+    }
   }
 }
 

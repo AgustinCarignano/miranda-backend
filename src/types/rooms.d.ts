@@ -1,12 +1,28 @@
+import { RowDataPacket } from "mysql2";
+
+export interface IRoomSQL extends RowDataPacket {
+  id: number | string;
+  photos: string;
+  roomType: string;
+  description: string;
+  roomNumber: number;
+  offer: number;
+  price: number;
+  discount: number;
+  cancellation: string;
+  status: string;
+  amenities: string;
+}
+
 export interface IRoom {
+  id: number | string;
   photos: string[];
   roomType: string;
   description: string;
   roomNumber: number;
-  id: string;
   offer: boolean;
   price: number;
-  discount: string;
+  discount: number;
   cancellation: string;
   status: string;
   amenities: string[];

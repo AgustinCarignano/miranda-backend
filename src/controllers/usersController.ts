@@ -1,9 +1,10 @@
 import DAOs from "@src/DAL/DAOs/factory";
 import { IReq, IRes } from "@src/types/request";
 import { IUser } from "@src/types/users";
-import checkProperties from "@src/utils/checkPropertiesUtils";
+//import checkProperties from "@src/utils/checkPropertiesUtils";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
+import { validateUtils } from "@src/utils/validate";
 
 class UsersController {
   async getAllUsers(_req: IReq<IUser>, res: IRes<IUser[]>) {
@@ -18,25 +19,33 @@ class UsersController {
   async updateUser(req: IReq<IUser>, res: IRes<IUser>) {
     const { id } = req.params;
     const obj = req.body;
-    const isValidUserObj = checkProperties.isValidUser(obj);
-    if (!isValidUserObj)
+    try {
+      const validatedUser = await validateUtils.userSchema.validateAsync(obj, {
+        abortEarly: false,
+      });
+      const newUser = await DAOs.UsersDAO.updateUser(id, validatedUser);
+      res.json({ message: "Success updating the user", payload: newUser });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "User object has a wrong format",
+        description: error.message,
       });
-    const newUser = await DAOs.UsersDAO.updateUser(id, obj);
-    res.json({ message: "Success updating the user", payload: newUser });
+    }
   }
   async createUser(req: IReq<IUser>, res: IRes<IUser>) {
     const obj = req.body;
-    const isValidUserObj = checkProperties.isValidUser(obj);
-    if (!isValidUserObj)
+    try {
+      const validatedUser = await validateUtils.userSchema.validateAsync(obj, {
+        abortEarly: false,
+      });
+      const newUser = await DAOs.UsersDAO.createUser(validatedUser);
+      res.json({ message: "Success creating the user", payload: newUser });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "User object has a wrong format",
+        description: error.message,
       });
-    const newUser = await DAOs.UsersDAO.createUser(obj);
-    res.json({ message: "Success creating the user", payload: newUser });
+    }
   }
   async deleteUser(req: IReq<IUser>, res: IRes<string>) {
     const { id } = req.params;

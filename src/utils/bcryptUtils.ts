@@ -6,7 +6,7 @@ function getHash(pwd: string): Promise<string> {
   return bcrypt.hash(pwd, SALT_ROUNDS);
 }
 
-function hashSync(pwd: string): string {
+function getHashSync(pwd: string): string {
   return bcrypt.hashSync(pwd, SALT_ROUNDS);
 }
 
@@ -16,6 +16,6 @@ function compare(pwd: string, hash: string): Promise<boolean> {
 
 export default {
   getHash,
-  hashSync,
+  getHashSync,
   compare,
 } as const;

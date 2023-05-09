@@ -1,7 +1,8 @@
 import DAOs from "@src/DAL/DAOs/factory";
 import { IReq, IRes } from "@src/types/request";
 import { IRoom } from "@src/types/rooms";
-import checkProperties from "@src/utils/checkPropertiesUtils";
+//import checkProperties from "@src/utils/checkPropertiesUtils";
+import { validateUtils } from "@src/utils/validate";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
@@ -18,25 +19,33 @@ class RoomsController {
   async updateRoom(req: IReq<IRoom>, res: IRes<IRoom>) {
     const { id } = req.params;
     const obj = req.body;
-    const isValidRoomObj = checkProperties.isValidRoom(obj);
-    if (!isValidRoomObj)
+    try {
+      const validatedRoom = await validateUtils.roomSchema.validateAsync(obj, {
+        abortEarly: false,
+      });
+      const newRoom = await DAOs.RoomsDAO.updateRoom(id, validatedRoom);
+      res.json({ message: "Success updating the room", payload: newRoom });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "Room object has a wrong format",
+        description: error.message,
       });
-    const newRoom = await DAOs.RoomsDAO.updateRoom(id, obj);
-    res.json({ message: "Success updating the room", payload: newRoom });
+    }
   }
   async createRoom(req: IReq<IRoom>, res: IRes<IRoom>) {
     const obj = req.body;
-    const isValidRoomObj = checkProperties.isValidRoom(obj);
-    if (!isValidRoomObj)
+    try {
+      const validatedRoom = await validateUtils.roomSchema.validateAsync(obj, {
+        abortEarly: false,
+      });
+      const newRoom = await DAOs.RoomsDAO.createRoom(validatedRoom);
+      res.json({ message: "Success creating the room", payload: newRoom });
+    } catch (error) {
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
-        description: "Room object has a wrong format",
+        description: error.message,
       });
-    const newRoom = await DAOs.RoomsDAO.createRoom(obj);
-    res.json({ message: "Success creating the room", payload: newRoom });
+    }
   }
   async deleteRoom(req: IReq<IRoom>, res: IRes<string>) {
     const { id } = req.params;

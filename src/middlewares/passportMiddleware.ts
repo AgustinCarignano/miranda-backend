@@ -55,6 +55,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (SerUser: IUser, done) => {
+  if (typeof SerUser.id === "number") SerUser.id = SerUser.id.toString();
   const user = await DAOs.UsersDAO.getUserDetail(SerUser.id);
   done(null, user);
 });
