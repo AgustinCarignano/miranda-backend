@@ -14,7 +14,16 @@ class BookingsController {
 
   async getBookingDetail(req: IReq<IBookings>, res: IRes<IBookings>) {
     const { id } = req.params;
-    const booking = await DAOs.BookingsDAO.getBookingDetail(id);
+    const query = req.query;
+    let booking;
+    if (
+      query.populate === "true" &&
+      DAOs.BookingsDAO.getBookingDetailPopulated
+    ) {
+      booking = await DAOs.BookingsDAO.getBookingDetailPopulated(id);
+    } else {
+      booking = await DAOs.BookingsDAO.getBookingDetail(id);
+    }
     res.json({ message: "Success getting the booking", payload: booking });
   }
 

@@ -6,9 +6,9 @@ export const contactSchema = Joi.object<IContact>({
   fullName: Joi.string().required(),
   email: Joi.string().email().required(),
   phone: Joi.string()
-    .regex(/^[0-9]{10}$/)
+    .regex(/^\+?\d+(?:[ ]?\d+)*$/)
     .min(10)
-    .max(12)
+    .max(13)
     .required(),
   subject: Joi.string().required(),
   message: Joi.string().required(),

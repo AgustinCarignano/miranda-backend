@@ -3,9 +3,10 @@ import { OkPacket } from "mysql2";
 import { DBQuery } from "../config";
 
 function generateContact() {
+  const fullName = faker.name.fullName();
   return {
-    fullName: faker.name.fullName(),
-    email: faker.internet.email(),
+    fullName: fullName,
+    email: faker.internet.email(fullName),
     phone: faker.phone.number("##### ######"),
     subject: faker.lorem.sentence(),
     message: faker.lorem.paragraph(),
@@ -36,5 +37,3 @@ export async function populateContacts(total: number) {
     );
   }
 }
-
-populateContacts(10);

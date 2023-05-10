@@ -1,4 +1,5 @@
 import { RowDataPacket } from "mysql2";
+import { IRoom } from "./rooms";
 
 export interface IBookingsSQL extends RowDataPacket {
   id: number;
@@ -35,4 +36,5 @@ export interface IBookingsDAO {
   updateBooking: (id: string, obj: IBookings) => Promise<IBookings>;
   createBooking: (obj: IBookings) => Promise<IBookings>;
   deleteBooking: (id: string) => Promise<string>;
+  getBookingDetailPopulated?: (id: string) => Promise<IBookings & IRoom>;
 }

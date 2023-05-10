@@ -22,7 +22,7 @@ export default class ContactsSQL implements IContactDAO {
   async updateContact(id: string | number, obj: IContact) {
     if (typeof id === "string") id = Number(id);
     const resp = await DBQuery<OkPacket>(
-      "UPDATE contacts SET fullName=?, email=?, phone=?, subject=?, message=?, date=?, read=?, archived=? WHERE id=?",
+      "UPDATE contacts SET fullName=?, email=?, phone=?, subject=?, message=?, date=?, _read=?, archived=? WHERE id=?",
       [
         obj.fullName,
         obj.email,
@@ -42,7 +42,7 @@ export default class ContactsSQL implements IContactDAO {
     const contacts: IContact[] = obj.map((contact) => {
       return {
         ...contact,
-        _read: contact.read === 1 ? true : false,
+        _read: contact._read === 1 ? true : false,
         archived: contact.archived === 1 ? true : false,
       };
     });

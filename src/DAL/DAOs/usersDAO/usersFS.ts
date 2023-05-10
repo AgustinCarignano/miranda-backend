@@ -127,6 +127,6 @@ export default class UsersFS implements IUsersDAO {
   }
 
   async #writeFile(data: IUser[]) {
-    await fs.promises.writeFile(this.path, JSON.stringify(data));
+    await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
   }
 }

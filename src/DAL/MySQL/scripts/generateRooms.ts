@@ -3,8 +3,8 @@ import { OkPacket } from "mysql2";
 import { DBQuery } from "../config";
 
 function generateRoom() {
-  let isOffer = faker.helpers.maybe(() => true, { probability: 0.4 }) || false;
-  let randomLength = Math.floor(Math.random() * 7) + 4;
+  let isOffer = faker.helpers.maybe(() => true, { probability: 0.3 }) || false;
+  let randomLength = Math.round(Math.random() * 7) + 3;
   return {
     photos: [
       faker.image.imageUrl(),
@@ -21,10 +21,25 @@ function generateRoom() {
     roomNumber: faker.datatype.number(999),
     offer: isOffer ? 1 : 0,
     price: faker.commerce.price(250, 1250, 0),
-    discount: isOffer ? faker.helpers.arrayElement([0.05, 0.1, 0.15]) : 0,
+    discount: isOffer ? faker.helpers.arrayElement([5, 10, 15]) : 0,
     cancellation: faker.lorem.sentence(),
     status: faker.helpers.arrayElement(["Available", "Booked"]),
-    amenities: faker.lorem.slug(randomLength).split("-"),
+    //amenities: faker.lorem.slug(randomLength).split("-"),
+    amenities: faker.helpers.arrayElements(
+      [
+        "Air Conditioner",
+        "High speed WiFi",
+        "Breakfast",
+        "Kitchen",
+        "Cleaning",
+        "Single Bed",
+        "Shower",
+        "Grocery",
+        "Shop near",
+        "Towels",
+      ],
+      randomLength
+    ),
   };
 }
 

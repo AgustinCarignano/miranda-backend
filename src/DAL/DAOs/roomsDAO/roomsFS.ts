@@ -100,6 +100,6 @@ export default class RoomsFS implements IRoomsDAO {
   }
 
   async #writeFile(data: IRoom[]) {
-    await fs.promises.writeFile(this.path, JSON.stringify(data));
+    await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
   }
 }

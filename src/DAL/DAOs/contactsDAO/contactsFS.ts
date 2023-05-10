@@ -46,6 +46,6 @@ export default class ContatcsFS implements IContactDAO {
     }
   }
   async #writeFile(data: IContact[]) {
-    await fs.promises.writeFile(this.path, JSON.stringify(data));
+    await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
   }
 }

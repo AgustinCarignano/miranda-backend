@@ -23,12 +23,14 @@ switch (envVars.Dao) {
     RoomsDAO = new RoomsFS();
     UsersDAO = new UsersFS();
     ContactsDAO = new ContatcsFS();
+    console.log("Using FileSystem for persistence");
     break;
   case "MySQL":
     BookingsDAO = new BookingsSQL();
     RoomsDAO = new RoomSQL();
     UsersDAO = new UsersSQL();
     ContactsDAO = new ContactsSQL();
+    console.log("Using MySQL for persistence");
     break;
   default:
     BookingsDAO = new BookingsFS();

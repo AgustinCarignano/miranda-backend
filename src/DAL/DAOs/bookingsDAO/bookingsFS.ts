@@ -108,6 +108,6 @@ export default class BookingsFS implements IBookingsDAO {
   }
 
   async #writeFile(data: IBookings[]) {
-    await fs.promises.writeFile(this.path, JSON.stringify(data));
+    await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
   }
 }
