@@ -71,7 +71,7 @@ class BookingsController {
     }
   }
 
-  async deleteBooking(req: IReq<IBookings>, res: IRes<string>) {
+  async deleteBooking(req: IReq<IBookings>, res: IRes<string | number>) {
     const { id } = req.params;
     const resId = await DAOs.BookingsDAO.deleteBooking(id);
     res.json({ message: "Success deleting the booking", payload: resId });

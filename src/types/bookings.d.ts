@@ -35,6 +35,9 @@ export interface IBookingsDAO {
   getBookingDetail: (id: string) => Promise<IBookings>;
   updateBooking: (id: string, obj: IBookings) => Promise<IBookings>;
   createBooking: (obj: IBookings) => Promise<IBookings>;
-  deleteBooking: (id: string) => Promise<string>;
-  getBookingDetailPopulated?: (id: string) => Promise<IBookings & IRoom>;
+  deleteBooking: (id: string) => Promise<string | number>;
+  getBookingDetailPopulated?: (
+    id: string | number
+  ) => Promise<IBookings & IRoom>;
 }
+//|(IBookings&IRoom)

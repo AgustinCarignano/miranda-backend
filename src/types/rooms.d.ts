@@ -34,5 +34,5 @@ export interface IRoomsDAO {
   getRoomDetail: (id: string) => Promise<IRoom>;
   updateRoom: (id: string, obj: IRoom) => Promise<IRoom>;
   createRoom: (obj: IRoom) => Promise<IRoom>;
-  deleteRoom: (id: string) => Promise<string>;
+  deleteRoom: (id: string) => Promise<string | number>;
 }

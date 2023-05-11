@@ -47,7 +47,7 @@ class UsersController {
       });
     }
   }
-  async deleteUser(req: IReq<IUser>, res: IRes<string>) {
+  async deleteUser(req: IReq<IUser>, res: IRes<string | number>) {
     const { id } = req.params;
     const resId = await DAOs.UsersDAO.deleteUser(id);
     res.json({ message: "Success deleting the user", payload: resId });

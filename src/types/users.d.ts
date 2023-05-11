@@ -33,5 +33,5 @@ export interface IUsersDAO {
   getUserByEmail: (email: string) => Promise<IUser>;
   updateUser: (id: string, obj: IUser) => Promise<IUser>;
   createUser: (obj: IUser) => Promise<IUser>;
-  deleteUser: (id: string) => Promise<string>;
+  deleteUser: (id: string) => Promise<string | number>;
 }

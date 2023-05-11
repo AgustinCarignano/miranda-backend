@@ -47,7 +47,7 @@ class RoomsController {
       });
     }
   }
-  async deleteRoom(req: IReq<IRoom>, res: IRes<string>) {
+  async deleteRoom(req: IReq<IRoom>, res: IRes<string | number>) {
     const { id } = req.params;
     const resId = await DAOs.RoomsDAO.deleteRoom(id);
     res.json({ message: "Success deleting the room", payload: resId });

@@ -20,10 +20,10 @@ export default class UsersFS implements IUsersDAO {
     }
   }
 
-  async getUserDetail(id: string) {
+  async getUserDetail(id: string | number) {
     try {
       const allUser = await this.getAllUsers();
-      const user = allUser.find((item) => item.id === id);
+      const user = allUser.find((item) => item.id == id);
       if (!user)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -40,10 +40,10 @@ export default class UsersFS implements IUsersDAO {
     }
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string | number) {
     try {
       const allUser = await this.getAllUsers();
-      const user = allUser.find((item) => item.email === email);
+      const user = allUser.find((item) => item.email == email);
       if (!user)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -60,10 +60,10 @@ export default class UsersFS implements IUsersDAO {
     }
   }
 
-  async updateUser(id: string, obj: IUser) {
+  async updateUser(id: string | number, obj: IUser) {
     try {
       const allUser = await this.getAllUsers();
-      const user = allUser.find((item) => item.id === id);
+      const user = allUser.find((item) => item.id == id);
       if (!user)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -106,15 +106,15 @@ export default class UsersFS implements IUsersDAO {
     }
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: string | number) {
     try {
       const allUser = await this.getAllUsers();
-      if (!allUser.some((item) => item.id === id))
+      if (!allUser.some((item) => item.id == id))
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "User not found",
         });
-      const newArray = allUser.filter((item) => item.id !== id);
+      const newArray = allUser.filter((item) => item.id != id);
       await this.#writeFile(newArray);
       return id;
     } catch (error) {

@@ -7,7 +7,7 @@ export interface IReq<T> extends e.Request {
   params: {
     id: string;
   };
-  // query?: U;
+  //query?: U;
 }
 //, U extends Querys
 

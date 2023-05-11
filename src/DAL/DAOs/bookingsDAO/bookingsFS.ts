@@ -1,5 +1,7 @@
-import { IBookings, IBookingsDAO } from "@src/types/bookings";
 import fs from "fs-extra";
+import { IBookings, IBookingsDAO } from "@src/types/bookings";
+import RoomsFS from "../roomsDAO/roomsFS";
+import { IRoom } from "@src/types/rooms";
 import { __rootDir } from "@src/utils/pathUtils";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
@@ -20,16 +22,16 @@ export default class BookingsFS implements IBookingsDAO {
     }
   }
 
-  async getBookingDetail(id: string) {
+  async getBookingDetail(id: string | number) {
     try {
       const allBookings = await this.getAllBookings();
-      const booking = allBookings.find((item) => item.id === id);
+      const booking = allBookings.find((item) => item.id == id);
       if (!booking)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "Booking not found",
         });
-      else return booking;
+      return booking;
     } catch (error) {
       if (error instanceof CustomError) throw error;
       else
@@ -40,10 +42,27 @@ export default class BookingsFS implements IBookingsDAO {
     }
   }
 
-  async updateBooking(id: string, obj: IBookings) {
+  async getBookingDetailPopulated(id: string | number) {
+    try {
+      const booking = await this.getBookingDetail(id);
+      const roomManager = new RoomsFS();
+      const room = await roomManager.getRoomDetail(booking.roomId.toString());
+      const populatedBoking: IBookings & IRoom = { ...booking, ...room, id };
+      return populatedBoking;
+    } catch (error) {
+      if (error instanceof CustomError) throw error;
+      else
+        throw new CustomError({
+          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+          description: error.message,
+        });
+    }
+  }
+
+  async updateBooking(id: string | number, obj: IBookings) {
     try {
       const allBookings = await this.getAllBookings();
-      const booking = allBookings.find((item) => item.id === id);
+      const booking = allBookings.find((item) => item.id == id);
       if (!booking)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -86,15 +105,15 @@ export default class BookingsFS implements IBookingsDAO {
     }
   }
 
-  async deleteBooking(id: string) {
+  async deleteBooking(id: string | number) {
     try {
       const allBookings = await this.getAllBookings();
-      if (!allBookings.some((item) => item.id === id))
+      if (!allBookings.some((item) => item.id == id))
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "Booking not found",
         });
-      const newArray = allBookings.filter((item) => item.id !== id);
+      const newArray = allBookings.filter((item) => item.id != id);
       await this.#writeFile(newArray);
       return id;
     } catch (error) {

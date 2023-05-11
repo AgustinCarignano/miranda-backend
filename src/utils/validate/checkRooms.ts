@@ -14,5 +14,21 @@ export const roomSchema = Joi.object<IRoom>({
   discount: Joi.number().max(1).min(0).required(),
   cancellation: Joi.string().required(),
   status: Joi.string().valid("Available", "Booked").required(),
-  amenities: Joi.array().min(3).items(Joi.string()).required(),
+  amenities: Joi.array()
+    .min(3)
+    .items(
+      Joi.string().valid(
+        "Air Conditioner",
+        "High speed WiFi",
+        "Breakfast",
+        "Kitchen",
+        "Cleaning",
+        "Single Bed",
+        "Shower",
+        "Grocery",
+        "Shop near",
+        "Towels"
+      )
+    )
+    .required(),
 });

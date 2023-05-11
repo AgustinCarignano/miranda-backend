@@ -4,7 +4,7 @@ import Joi from "joi";
 export const bookingSchema = Joi.object<IBookings>({
   id: Joi.alternatives().try(Joi.string(), Joi.number()),
   guest: Joi.string().required(),
-  specialRequest: Joi.string(),
+  specialRequest: Joi.string().allow("").required(),
   orderDate: Joi.alternatives()
     .try(Joi.date().iso(), Joi.date().timestamp())
     .required(),
