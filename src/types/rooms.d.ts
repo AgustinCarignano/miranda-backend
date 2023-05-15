@@ -2,7 +2,6 @@ import { RowDataPacket } from "mysql2";
 
 export interface IRoomSQL extends RowDataPacket {
   id: number | string;
-  photos: string;
   roomType: string;
   description: string;
   roomNumber: number;
@@ -11,10 +10,10 @@ export interface IRoomSQL extends RowDataPacket {
   discount: number;
   cancellation: string;
   status: string;
-  amenities: string;
+  amenities: string[];
 }
 
-export interface IRoom {
+export interface IRoom extends RowDataPacket {
   id: number | string;
   photos: string[];
   roomType: string;
@@ -35,4 +34,9 @@ export interface IRoomsDAO {
   updateRoom: (id: string, obj: IRoom) => Promise<IRoom>;
   createRoom: (obj: IRoom) => Promise<IRoom>;
   deleteRoom: (id: string) => Promise<string | number>;
+}
+
+export interface IPhotos extends RowDataPacket {
+  id: string | number;
+  photos: string[];
 }

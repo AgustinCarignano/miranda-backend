@@ -8,10 +8,10 @@ export const roomSchema = Joi.object<IRoom>({
     .valid("Suite", "Double Superior", "Double Bed", "Single Bed")
     .required(),
   description: Joi.string().required(),
-  roomNumber: Joi.number().required(),
+  roomNumber: Joi.number().min(1).required(),
   offer: Joi.boolean().required(),
   price: Joi.number().required(),
-  discount: Joi.number().max(1).min(0).required(),
+  discount: Joi.number().max(100).min(0).required(),
   cancellation: Joi.string().required(),
   status: Joi.string().valid("Available", "Booked").required(),
   amenities: Joi.array()

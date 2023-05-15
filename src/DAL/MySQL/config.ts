@@ -17,6 +17,7 @@ export async function DBQuery<T extends RowDataPacket[] | OkPacket>(
 ): Promise<T> {
   const connection = await mysql.createConnection(config.db);
   const [resp] = await connection.execute<T>(query, params);
+  await connection.end();
   return resp;
 }
 

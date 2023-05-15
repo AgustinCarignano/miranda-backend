@@ -42,22 +42,22 @@ export default class BookingsFS implements IBookingsDAO {
     }
   }
 
-  async getBookingDetailPopulated(id: string | number) {
-    try {
-      const booking = await this.getBookingDetail(id);
-      const roomManager = new RoomsFS();
-      const room = await roomManager.getRoomDetail(booking.roomId.toString());
-      const populatedBoking: IBookings & IRoom = { ...booking, ...room, id };
-      return populatedBoking;
-    } catch (error) {
-      if (error instanceof CustomError) throw error;
-      else
-        throw new CustomError({
-          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
-          description: error.message,
-        });
-    }
-  }
+  // async getBookingDetailPopulated(id: string | number) {
+  //   try {
+  //     const booking = await this.getBookingDetail(id);
+  //     const roomManager = new RoomsFS();
+  //     const room = await roomManager.getRoomDetail(booking.roomId.toString());
+  //     const populatedBoking: IBookings & IRoom = { ...booking, ...room, id };
+  //     return populatedBoking;
+  //   } catch (error) {
+  //     if (error instanceof CustomError) throw error;
+  //     else
+  //       throw new CustomError({
+  //         httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+  //         description: error.message,
+  //       });
+  //   }
+  // }
 
   async updateBooking(id: string | number, obj: IBookings) {
     try {

@@ -2,6 +2,19 @@ import { faker } from "@faker-js/faker";
 import { OkPacket } from "mysql2";
 import { DBQuery } from "../config";
 
+const amenitiesList = [
+  "Air Conditioner",
+  "High speed WiFi",
+  "Breakfast",
+  "Kitchen",
+  "Cleaning",
+  "Single Bed",
+  "Shower",
+  "Grocery",
+  "Shop near",
+  "Towels",
+];
+
 function generateRoom() {
   let isOffer = faker.helpers.maybe(() => true, { probability: 0.3 }) || false;
   let randomLength = Math.round(Math.random() * 7) + 3;
@@ -24,32 +37,16 @@ function generateRoom() {
     discount: isOffer ? faker.helpers.arrayElement([5, 10, 15]) : 0,
     cancellation: faker.lorem.sentence(),
     status: faker.helpers.arrayElement(["Available", "Booked"]),
-    //amenities: faker.lorem.slug(randomLength).split("-"),
-    amenities: faker.helpers.arrayElements(
-      [
-        "Air Conditioner",
-        "High speed WiFi",
-        "Breakfast",
-        "Kitchen",
-        "Cleaning",
-        "Single Bed",
-        "Shower",
-        "Grocery",
-        "Shop near",
-        "Towels",
-      ],
-      randomLength
-    ),
+    amenities: faker.helpers.arrayElements(amenitiesList, randomLength),
   };
 }
 
 export async function populateRooms(total: number) {
   for (let i = 0; i < total; i++) {
     const room = generateRoom();
-    await DBQuery<OkPacket>(
-      "INSERT INTO rooms (photos, roomType, description, roomNumber, offer, price, discount, cancellation, status, amenities) VALUES (?,?,?,?,?,?,?,?,?,?)",
+    const resp = await DBQuery<OkPacket>(
+      "INSERT INTO rooms (roomType, description, roomNumber, offer, price, discount, cancellation, status) VALUES (?,?,?,?,?,?,?,?)",
       [
-        room.photos.join(","),
         room.roomType,
         room.description,
         room.roomNumber,
@@ -58,8 +55,20 @@ export async function populateRooms(total: number) {
         room.discount,
         room.cancellation,
         room.status,
-        room.amenities.join(","),
       ]
     );
+    room.photos.forEach(async (item) => {
+      await DBQuery("INSERT INTO room_photos (roomId,url) VALUES (?,?)", [
+        resp.insertId,
+        item,
+      ]);
+    });
+    room.amenities.forEach(async (item) => {
+      const i = amenitiesList.indexOf(item);
+      await DBQuery(
+        "INSERT INTO rooms_amenities (roomId,amenityId) VALUES (?,?)",
+        [resp.insertId, i + 1]
+      );
+    });
   }
 }

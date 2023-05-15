@@ -120,34 +120,34 @@ export default class BookingsSQL implements IBookingsDAO {
         });
     }
   }
-  async getBookingDetailPopulated(id: string | number) {
-    if (typeof id === "string") id = Number(id);
-    try {
-      const bookingArr = await DBQuery<(IBookingsSQL & IRoomSQL)[]>(
-        "SELECT * FROM bookings INNER JOIN rooms ON rooms.id=bookings.roomId WHERE bookings.id = ?",
-        [id]
-      );
-      if (bookingArr.length === 0)
-        throw new CustomError({
-          httpCode: HttpCode.NOT_FOUND,
-          description: "Booking not found",
-        });
-      const booking = bookingArr[0];
-      const formatBooking: IBookings & IRoom = {
-        ...booking,
-        id,
-        offer: booking.offer === 1 ? true : false,
-        photos: booking.photos.split(","),
-        amenities: booking.amenities.split(","),
-      };
-      return formatBooking;
-    } catch (error) {
-      if (error instanceof CustomError) throw error;
-      else
-        throw new CustomError({
-          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
-          description: error.message,
-        });
-    }
-  }
+  // async getBookingDetailPopulated(id: string | number) {
+  //   if (typeof id === "string") id = Number(id);
+  //   try {
+  //     const bookingArr = await DBQuery<(IBookingsSQL & IRoomSQL)[]>(
+  //       "SELECT * FROM bookings INNER JOIN rooms ON rooms.id=bookings.roomId WHERE bookings.id = ?",
+  //       [id]
+  //     );
+  //     if (bookingArr.length === 0)
+  //       throw new CustomError({
+  //         httpCode: HttpCode.NOT_FOUND,
+  //         description: "Booking not found",
+  //       });
+  //     const booking = bookingArr[0];
+  //     const formatBooking: IBookings & IRoom = {
+  //       ...booking,
+  //       id,
+  //       offer: booking.offer === 1 ? true : false,
+  //       photos: booking.photos.split(","),
+  //       amenities: booking.amenities.split(","),
+  //     };
+  //     return formatBooking;
+  //   } catch (error) {
+  //     if (error instanceof CustomError) throw error;
+  //     else
+  //       throw new CustomError({
+  //         httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+  //         description: error.message,
+  //       });
+  //   }
+  // }
 }
