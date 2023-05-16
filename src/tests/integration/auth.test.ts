@@ -1,9 +1,4 @@
-import { request } from "@src/tests/helpers";
-
-const user = {
-  email: "agustinC",
-  password: "12345",
-};
+import { request, user } from "@src/tests/helpers";
 
 describe("Private endpoints", () => {
   it("should return a 401 code status and a message if no token is passed in the request", async () => {

@@ -2,7 +2,7 @@ import { IRoom } from "@src/types/rooms";
 import Joi from "joi";
 
 export const roomSchema = Joi.object<IRoom>({
-  id: Joi.alternatives().try(Joi.string(), Joi.number()),
+  _id: Joi.alternatives().try(Joi.string(), Joi.number()),
   photos: Joi.array().max(5).min(3).items(Joi.string().uri()).required(),
   roomType: Joi.string()
     .valid("Suite", "Double Superior", "Double Bed", "Single Bed")

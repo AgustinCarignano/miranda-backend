@@ -25,7 +25,7 @@ export default class BookingsFS implements IBookingsDAO {
   async getBookingDetail(id: string | number) {
     try {
       const allBookings = await this.getAllBookings();
-      const booking = allBookings.find((item) => item.id == id);
+      const booking = allBookings.find((item) => item._id == id);
       if (!booking)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -62,7 +62,7 @@ export default class BookingsFS implements IBookingsDAO {
   async updateBooking(id: string | number, obj: IBookings) {
     try {
       const allBookings = await this.getAllBookings();
-      const booking = allBookings.find((item) => item.id == id);
+      const booking = allBookings.find((item) => item._id == id);
       if (!booking)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -70,7 +70,7 @@ export default class BookingsFS implements IBookingsDAO {
         });
       const newBooking = { ...booking, ...obj, id };
       const newArray = allBookings.map((item) => {
-        if (item.id === id) return newBooking;
+        if (item._id === id) return newBooking;
         else return item;
       });
       await this.#writeFile(newArray);
@@ -88,7 +88,7 @@ export default class BookingsFS implements IBookingsDAO {
   async createBooking(obj: IBookings) {
     try {
       const allBookings = await this.getAllBookings();
-      if (allBookings.some((item) => item.id === obj.id))
+      if (allBookings.some((item) => item._id === obj._id))
         throw new CustomError({
           httpCode: HttpCode.BAD_REQUEST,
           description: "Duplicate booking id",
@@ -108,12 +108,12 @@ export default class BookingsFS implements IBookingsDAO {
   async deleteBooking(id: string | number) {
     try {
       const allBookings = await this.getAllBookings();
-      if (!allBookings.some((item) => item.id == id))
+      if (!allBookings.some((item) => item._id == id))
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "Booking not found",
         });
-      const newArray = allBookings.filter((item) => item.id != id);
+      const newArray = allBookings.filter((item) => item._id != id);
       await this.#writeFile(newArray);
       return id;
     } catch (error) {

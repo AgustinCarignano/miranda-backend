@@ -42,7 +42,7 @@ passport.use(
         done(null, payload.user);
       } catch (error) {
         throw new CustomError({
-          httpCode: HttpCode.INTERNAL_SERVER_ERROR,
+          httpCode: HttpCode.UNAUTHORIZED,
           description: error.message,
         });
       }
@@ -55,7 +55,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (SerUser: IUser, done) => {
-  if (typeof SerUser.id === "number") SerUser.id = SerUser.id.toString();
-  const user = await DAOs.UsersDAO.getUserDetail(SerUser.id);
+  SerUser._id = SerUser._id.toString();
+  const user = await DAOs.UsersDAO.getUserDetail(SerUser._id);
   done(null, user);
 });

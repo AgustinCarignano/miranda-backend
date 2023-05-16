@@ -23,7 +23,7 @@ export default class UsersFS implements IUsersDAO {
   async getUserDetail(id: string | number) {
     try {
       const allUser = await this.getAllUsers();
-      const user = allUser.find((item) => item.id == id);
+      const user = allUser.find((item) => item._id == id);
       if (!user)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -63,7 +63,7 @@ export default class UsersFS implements IUsersDAO {
   async updateUser(id: string | number, obj: IUser) {
     try {
       const allUser = await this.getAllUsers();
-      const user = allUser.find((item) => item.id == id);
+      const user = allUser.find((item) => item._id == id);
       if (!user)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -71,7 +71,7 @@ export default class UsersFS implements IUsersDAO {
         });
       const newUser = { ...user, ...obj, id };
       const newArray = allUser.map((item) => {
-        if (item.id === id) return newUser;
+        if (item._id === id) return newUser;
         else return item;
       });
       await this.#writeFile(newArray);
@@ -89,7 +89,7 @@ export default class UsersFS implements IUsersDAO {
   async createUser(obj: IUser) {
     try {
       const allUser = await this.getAllUsers();
-      if (allUser.some((item) => item.id === obj.id))
+      if (allUser.some((item) => item._id === obj._id))
         throw new CustomError({
           httpCode: HttpCode.BAD_REQUEST,
           description: "Duplicate user id",
@@ -109,12 +109,12 @@ export default class UsersFS implements IUsersDAO {
   async deleteUser(id: string | number) {
     try {
       const allUser = await this.getAllUsers();
-      if (!allUser.some((item) => item.id == id))
+      if (!allUser.some((item) => item._id == id))
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "User not found",
         });
-      const newArray = allUser.filter((item) => item.id != id);
+      const newArray = allUser.filter((item) => item._id != id);
       await this.#writeFile(newArray);
       return id;
     } catch (error) {

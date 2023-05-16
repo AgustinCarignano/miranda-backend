@@ -23,7 +23,7 @@ export default class ContatcsFS implements IContactDAO {
   async updateContact(id: string, obj: IContact) {
     try {
       const allContacts = await this.getAllContacts();
-      const contact = allContacts.find((item) => item.id === id);
+      const contact = allContacts.find((item) => item._id === id);
       if (!contact)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -31,7 +31,7 @@ export default class ContatcsFS implements IContactDAO {
         });
       const newContact = { ...contact, ...obj, id };
       const newArray = allContacts.map((item) => {
-        if (item.id === id) return newContact;
+        if (item._id === id) return newContact;
         else return item;
       });
       await this.#writeFile(newArray);

@@ -1,7 +1,8 @@
 import { RowDataPacket } from "mysql2";
+import { Schema } from "mongoose";
 
 export interface IRoomSQL extends RowDataPacket {
-  id: number | string;
+  _id: number | string;
   roomType: string;
   description: string;
   roomNumber: number;
@@ -13,8 +14,8 @@ export interface IRoomSQL extends RowDataPacket {
   amenities: string[];
 }
 
-export interface IRoom extends RowDataPacket {
-  id: number | string;
+export interface IRoom {
+  _id: number | string | Schema.Types.ObjectId;
   photos: string[];
   roomType: string;
   description: string;

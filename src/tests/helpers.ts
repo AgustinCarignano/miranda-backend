@@ -1,123 +1,130 @@
 import { agent as _request } from "supertest";
-import dotenv from "dotenv";
 import server from "@src/server";
-
-dotenv.config();
-
-export const testEnvVars = {
-  user: process.env.TEST_USER ?? "",
-  password: process.env.TEST_PASS ?? "",
-};
+import "@src/pre-start";
+import envVars from "@src/envVars";
 
 export const request = _request(server);
 
+export const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozMCwiZW1haWwiOiJhZ3VzdGluLmNhcmlnbmFub0BnbWFpbC5jb20ifSwiaWF0IjoxNjg0MjI3NDcwLCJleHAiOjE2ODQzMTM4NzB9.mrJ0_W_efaarxGJA3mi42UVpy9oj6yLzDROTRTcXZns";
+
+export const user = {
+  email: envVars.test.user,
+  password: envVars.test.password,
+};
+
 export const bookingObjTest = {
-  id: "048905635-0",
-  guest: "Jere Waldera",
-  specialRequest:
-    "semper est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in faucibus orci luctus",
-  orderDate: 1676064790000,
-  roomType: "Suite",
+  _id: "64633e6340ebc8ffde3c4db6",
+  guest: "Catherine McDermott PhD",
+  specialRequest: "No special request at all",
+  orderDate: 1660338411388,
+  roomType: "Double Bed",
   status: "Check Out",
-  checkIn: 1648880925000,
-  checkOut: 1649057875000,
-  roomId: "777811272-8",
-  roomNumber: "679",
-  roomImg: "https://i.imgur.com/wRHoim3.jpg",
+  checkIn: 1673917510897,
+  checkOut: 1673478072554,
+  roomId: "64633e6240ebc8ffde3c4da4",
+  roomNumber: 471,
+  roomImg: "https://loremflickr.com/640/480",
 };
 
 export const newBookingTest = {
-  id: "test-04753050015-9",
-  guest: "Test",
-  specialRequest: "Lorem inpsum",
-  orderDate: 1676064790000,
-  roomType: "Suite",
-  status: "Check In",
-  checkIn: 1648880925000,
-  checkOut: 1649057875000,
-  roomId: "135468asd",
-  roomNumber: "785",
-  roomImg: "thumbnail",
+  guest: "Test guest",
+  specialRequest: "No special request at all",
+  orderDate: 1660338411388,
+  roomType: "Single Bed",
+  status: "Check Out",
+  checkIn: 1673917510897,
+  checkOut: 1673478072554,
+  roomId: "64633e6240ebc8ffde3c4da6",
+  roomNumber: 704,
+  roomImg: "https://loremflickr.com/640/480",
 };
 
 export const roomObjTest = {
+  _id: "64633e6240ebc8ffde3c4da2",
   photos: [
-    "https://i.imgur.com/wRHoim3.jpg",
-    "https://i.imgur.com/JfDFjih.jpg",
-    "https://i.imgur.com/1zVmQkU.jpg",
+    "https://loremflickr.com/640/480",
+    "https://loremflickr.com/640/480",
+    "https://loremflickr.com/640/480",
   ],
   roomType: "Double Superior",
-  description:
-    "In congue. Etiam justo. Etiam pretium iaculis justo.\n\nIn hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\n\nNulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
-  roomNumber: 746,
-  id: "772247758-5",
+  description: "Modi odit quis asperiores.",
+  roomNumber: 568,
   offer: true,
-  price: 780,
-  discount: "25%",
+  price: 981,
+  discount: 5,
   cancellation:
-    "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\n\nNulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
+    "Debitis maiores incidunt ipsum quaerat optio placeat delectus tempore delectus.",
   status: "Booked",
   amenities: [
-    "Air Conditioner",
-    "High speed WiFi",
-    "Breakfast",
-    "Cleaning",
-    "Shower",
-    "Shop near",
     "Towels",
+    "High speed WiFi",
+    "Grocery",
+    "Cleaning",
+    "Air Conditioner",
+    "Shop near",
+    "Single Bed",
+    "Breakfast",
+    "Kitchen",
+    "Shower",
   ],
 };
 
 export const newRoomTest = {
-  photos: ["Link", "Link", "Link"],
+  photos: [
+    "https://loremflickr.com/640/480",
+    "https://loremflickr.com/640/480",
+    "https://loremflickr.com/640/480",
+  ],
   roomType: "Double Superior",
-  description: "Lorem ipsum",
-  roomNumber: 746,
-  id: "7727637048-02",
+  description: "Modi odit quis asperiores.",
+  roomNumber: 985,
   offer: true,
-  price: 780,
-  discount: "25%",
-  cancellation: "",
+  price: 700,
+  discount: 15,
+  cancellation:
+    "Debitis maiores incidunt ipsum quaerat optio placeat delectus tempore delectus.",
   status: "Booked",
-  amenities: ["Air Conditioner", "Shower", "Shop near"],
+  amenities: ["Towels", "High speed WiFi", "Grocery"],
 };
 
 export const userObjTest = {
-  photo: "https://i.imgur.com/wcT5ydV.jpg",
-  fullName: "Barb Smillie",
-  id: "262167279-5",
-  email: "bsmillie1s@flavors.me",
-  startDate: 1657005200000,
-  description:
-    "Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-  contact: "526-666-8641",
-  status: "INACTIVE",
-  role: "Room Services",
-  password: "68e2a2c7cac71e7e7f102d7904d131a9c6d1516b",
+  _id: "64633e6540ebc8ffde3c4ddc",
+  photo:
+    "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/301.jpg",
+  fullName: "Andrew Shields II",
+  email: "Paige.Becker62@gmail.com",
+  startDate: 1669980266400,
+  description: "Corporate",
+  contact: "24973 572849",
+  status: "ACTIVE",
+  role: "Receptionist",
+  password: "$2b$12$fWoiDNb54HgW7i2elMaeXeoio/wYIqMNEJbOpenmYRXOhaf0VsHKC",
 };
 
 export const newUserTest = {
-  photo: "Link",
-  fullName: "Agustin",
-  id: "035327279-7",
-  email: "bsmillie1s@flavors.me",
-  startDate: 1657005200000,
-  description: "Cras mi pede, malesuada in.",
-  contact: "526-666-8641",
-  status: "INACTIVE",
-  role: "Room Services",
-  password: "68e2a2c7cac71e7e7f102d7904d131a9c6d1516b",
+  photo:
+    "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/301.jpg",
+  fullName: "Test Testing",
+  email: "tests@gmail.com",
+  startDate: 1669980266400,
+  description: "Some description",
+  contact: "24973 572849",
+  status: "ACTIVE",
+  role: "Receptionist",
+  password: "$2b$12$fWoiDNb54HgW7i2elaDyuToio/wYIqMNEJbOpenmYRXOhaf0VsHKC",
 };
 
 export const contactObjTest = {
-  id: "939769822-2",
-  fullName: "Lorene Dik",
-  email: "ldik2@mozilla.com",
-  phone: "754 284 2563",
-  subject: "posuere metus",
+  _id: "64633ed4f212c8dde074075a",
+  fullName: "Suzanne Jakubowski",
+  email: "SuzanneJakubowski58@yahoo.com",
+  phone: "90168 364776",
+  subject:
+    "Porro veritatis voluptas consectetur velit rem quam odit dolor consectetur.",
   message:
-    "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
-  date: 1658292318000,
-  read: false,
-  archived: false,
+    "Autem numquam blanditiis minus. Nihil architecto unde non eius. Rerum eum corporis praesentium.",
+  date: 1673124885322,
+  _read: false,
+  archived: true,
 };

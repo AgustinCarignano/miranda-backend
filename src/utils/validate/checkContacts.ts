@@ -2,7 +2,7 @@ import { IContact } from "@src/types/contacts";
 import Joi from "joi";
 
 export const contactSchema = Joi.object<IContact>({
-  id: Joi.alternatives().try(Joi.string(), Joi.number()),
+  _id: Joi.alternatives().try(Joi.string(), Joi.number()),
   fullName: Joi.string().required(),
   email: Joi.string().email().required(),
   phone: Joi.string()

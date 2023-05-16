@@ -1,6 +1,7 @@
 import { request } from "@src/tests/helpers";
 import {
-  testEnvVars,
+  user,
+  token,
   bookingObjTest,
   newBookingTest,
 } from "@src/tests/helpers";
@@ -8,14 +9,12 @@ import { IBookings } from "@src/types/bookings";
 
 describe("Bookings endpoint", () => {
   const baseUrl = "/api/bookings";
-  const user = {
-    email: testEnvVars.user,
-    password: testEnvVars.password,
-  };
-  let token: string;
-  beforeAll(async () => {
-    token = (await request.post("/api/auth/login").send(user)).body.payload;
-  });
+  //let token: string;
+  let newId: string;
+
+  // beforeAll(async () => {
+  //   token = (await request.post("/api/auth/login").send(user)).body.payload;
+  // });
 
   it("Made a get to '.../' endpoint should return an array of objects of IBooking type", async () => {
     const res = await request
@@ -27,9 +26,10 @@ describe("Bookings endpoint", () => {
     expect(res.body.payload.length).toBeDefined();
     expect(res.body.payload[1]).toMatchObject<IBookings>;
   });
+
   it("Made a get to '.../:id' endpoint should return an especific object of IBooking type", async () => {
     const res = await request
-      .get(`${baseUrl}/${bookingObjTest.id}`)
+      .get(`${baseUrl}/${bookingObjTest._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -37,14 +37,17 @@ describe("Bookings endpoint", () => {
     expect(res.body.payload).toMatchObject<IBookings>;
     expect(res.body.payload).toMatchObject(bookingObjTest);
   });
+
   it("Made a post to '.../' create a new booking object", async () => {
     const res = await request
       .post(`${baseUrl}/`)
       .set("Authorization", `bearer ${token}`)
       .send(newBookingTest);
 
+    newId = res.body.payload._id;
+
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -54,14 +57,15 @@ describe("Bookings endpoint", () => {
     expect(getRes.body.payload).toMatchObject(newBookingTest);
     expect(res.body.payload).toMatchObject(newBookingTest);
   });
+
   it("Made a put to '.../:id' update a specific booking object", async () => {
     const res = await request
-      .put(`${baseUrl}/${newBookingTest.id}`)
+      .put(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`)
       .send({ ...newBookingTest, guest: "new guest name" });
 
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -77,15 +81,16 @@ describe("Bookings endpoint", () => {
       guest: "new guest name",
     });
   });
+
   it("Made a delete to '.../:id' remove a specific booking object", async () => {
     const res = await request
-      .get(`${baseUrl}/${newBookingTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const DeleteRes = await request
-      .delete(`${baseUrl}/${newBookingTest.id}`)
+      .delete(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const newRes = await request
-      .get(`${baseUrl}/${newBookingTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);

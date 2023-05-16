@@ -3,7 +3,7 @@ import { IUser } from "@src/types/users";
 const isUserType = (input: any): input is IUser => {
   if (
     "email" in input &&
-    "id" in input &&
+    "_id" in input &&
     "photo" in input &&
     "fullName" in input &&
     "startDate" in input &&

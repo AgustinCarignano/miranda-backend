@@ -1,7 +1,10 @@
 import { RowDataPacket } from "mysql2";
+import { Schema } from "mongoose";
+
+export type UserIdType = string | number | Schema.Types.ObjectId;
 
 export interface IUserSQL extends RowDataPacket {
-  id: number | string;
+  _id: number | string;
   photo: string;
   fullName: string;
   email: string;
@@ -14,7 +17,7 @@ export interface IUserSQL extends RowDataPacket {
 }
 
 export interface IUser {
-  id: number | string;
+  _id: UserIdType;
   photo: string;
   fullName: string;
   email: string;

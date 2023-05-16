@@ -51,7 +51,7 @@ export default class BookingsSQL implements IBookingsDAO {
           obj.status,
           obj.checkIn,
           obj.checkOut,
-          obj.roomId,
+          typeof obj.roomId !== "string" ? obj.roomId.toString() : obj.roomId,
           obj.roomNumber,
           obj.roomImg,
         ]
@@ -78,7 +78,7 @@ export default class BookingsSQL implements IBookingsDAO {
           obj.status,
           obj.checkIn,
           obj.checkOut,
-          obj.roomId,
+          typeof obj.roomId !== "string" ? obj.roomId.toString() : obj.roomId,
           obj.roomNumber,
           obj.roomImg,
           id,

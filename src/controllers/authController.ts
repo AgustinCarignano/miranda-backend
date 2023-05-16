@@ -8,7 +8,7 @@ class AuthController {
     const user = req.user;
     if (typeGuardsUtils.isUserType(user)) {
       const token = await jwtUtils.generateToken({
-        id: user.id,
+        _id: user._id,
         email: user.email,
       });
       res.json({ message: "Logged in successfully", payload: token });

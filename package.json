@@ -10,7 +10,8 @@
     "test": "jest",
     "oldTest": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
-    "seed": "ts-node src/DAL/MySQL/scripts/seed.ts"
+    "seed-sql": "ts-node src/DAL/MySQL/scripts/seed.ts",
+    "seed-mongo": "ts-node src/DAL/Mongo/seed.ts"
   },
   "nodemonConfig": {
     "watch": [
@@ -54,6 +55,7 @@
     "express-session": "^1.17.3",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.1.1",
     "mysql2": "^3.3.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",

@@ -1,17 +1,15 @@
 import { request } from "@src/tests/helpers";
-import { testEnvVars, userObjTest, newUserTest } from "@src/tests/helpers";
+import { user, token, userObjTest, newUserTest } from "@src/tests/helpers";
 import { IUser } from "@src/types/users";
 
 describe("Users endpoint", () => {
   const baseUrl = "/api/users";
-  const user = {
-    email: testEnvVars.user,
-    password: testEnvVars.password,
-  };
-  let token: string;
-  beforeAll(async () => {
-    token = (await request.post("/api/auth/login").send(user)).body.payload;
-  });
+  //let token: string;
+  let newId: string;
+
+  // beforeAll(async () => {
+  //   token = (await request.post("/api/auth/login").send(user)).body.payload;
+  // });
 
   it("Made a get to '.../' endpoint should return an array of objects of IUser type", async () => {
     const res = await request
@@ -25,7 +23,7 @@ describe("Users endpoint", () => {
   });
   it("Made a get to '.../:id' endpoint should return an especific object of IUser type", async () => {
     const res = await request
-      .get(`${baseUrl}/${userObjTest.id}`)
+      .get(`${baseUrl}/${userObjTest._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -39,8 +37,10 @@ describe("Users endpoint", () => {
       .set("Authorization", `bearer ${token}`)
       .send(newUserTest);
 
+    newId = res.body.payload._id;
+
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -52,12 +52,12 @@ describe("Users endpoint", () => {
   });
   it("Made a put to '.../:id' update a specific user object", async () => {
     const res = await request
-      .put(`${baseUrl}/${newUserTest.id}`)
+      .put(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`)
       .send({ ...newUserTest, fullName: "Matias Olivera" });
 
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -75,13 +75,13 @@ describe("Users endpoint", () => {
   });
   it("Made a delete to '.../:id' remove a specific user object", async () => {
     const res = await request
-      .get(`${baseUrl}/${newUserTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const DeleteRes = await request
-      .delete(`${baseUrl}/${newUserTest.id}`)
+      .delete(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const newRes = await request
-      .get(`${baseUrl}/${newUserTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);

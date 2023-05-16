@@ -1,6 +1,6 @@
 use mirandahoteldb;
 CREATE TABLE rooms(
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    _id INT AUTO_INCREMENT PRIMARY KEY,
     roomType enum(
       "Suite",
       "Double Superior",

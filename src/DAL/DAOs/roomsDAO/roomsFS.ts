@@ -23,7 +23,7 @@ export default class RoomsFS implements IRoomsDAO {
   async getRoomDetail(id: string | number) {
     try {
       const allRooms = await this.getAllRooms();
-      const room = allRooms.find((item) => item.id == id);
+      const room = allRooms.find((item) => item._id == id);
       if (!room)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -43,7 +43,7 @@ export default class RoomsFS implements IRoomsDAO {
   async updateRoom(id: string | number, obj: IRoom) {
     try {
       const allRooms = await this.getAllRooms();
-      const room = allRooms.find((item) => item.id == id);
+      const room = allRooms.find((item) => item._id == id);
       if (!room)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
@@ -51,7 +51,7 @@ export default class RoomsFS implements IRoomsDAO {
         });
       const newRoom = { ...room, ...obj, id };
       const newArray = allRooms.map((item) => {
-        if (item.id === id) return newRoom;
+        if (item._id === id) return newRoom;
         else return item;
       });
       await this.#writeFile(newArray);
@@ -69,7 +69,7 @@ export default class RoomsFS implements IRoomsDAO {
   async createRoom(obj: IRoom) {
     try {
       const allRooms = await this.getAllRooms();
-      if (allRooms.some((item) => item.id == obj.id))
+      if (allRooms.some((item) => item._id == obj._id))
         throw new CustomError({
           httpCode: HttpCode.BAD_REQUEST,
           description: "Duplicate room id",
@@ -89,12 +89,12 @@ export default class RoomsFS implements IRoomsDAO {
   async deleteRoom(id: string | number) {
     try {
       const allRooms = await this.getAllRooms();
-      if (!allRooms.some((item) => item.id == id))
+      if (!allRooms.some((item) => item._id == id))
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,
           description: "Room not found",
         });
-      const newArray = allRooms.filter((item) => item.id != id);
+      const newArray = allRooms.filter((item) => item._id != id);
       await this.#writeFile(newArray);
       return id;
     } catch (error) {

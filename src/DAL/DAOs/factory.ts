@@ -1,16 +1,17 @@
 import envVars from "@src/envVars";
-import BookingsFS from "./bookingsDAO/bookingsFS";
 import RoomsFS from "./roomsDAO/roomsFS";
 import UsersFS from "./usersDAO/usersFS";
-import ContatcsFS from "./contactsDAO/contactsFS";
-import BookingsSQL from "./bookingsDAO/bookingsSQL";
 import RoomSQL from "./roomsDAO/roomsSQL";
 import UsersSQL from "./usersDAO/usersSQL";
-import ContactsSQL from "./contactsDAO/contactsSQL";
 import { IBookingsDAO } from "@src/types/bookings";
 import { IRoomsDAO } from "@src/types/rooms";
 import { IUsersDAO } from "@src/types/users";
 import { IContactDAO } from "@src/types/contacts";
+import BookingDAOs from "./bookingsDAO/bookingIndex";
+import RoomDAOs from "./roomsDAO/roomIndex";
+import UserDAOs from "./usersDAO/userIndex";
+import ContactDAOs from "./contactsDAO/contactIndex";
+import { testDB } from "../MySQL/config";
 
 let BookingsDAO: IBookingsDAO;
 let RoomsDAO: IRoomsDAO;
@@ -19,24 +20,33 @@ let ContactsDAO: IContactDAO;
 
 switch (envVars.Dao) {
   case "FileSystem":
-    BookingsDAO = new BookingsFS();
-    RoomsDAO = new RoomsFS();
-    UsersDAO = new UsersFS();
-    ContactsDAO = new ContatcsFS();
+    BookingsDAO = new BookingDAOs.FS();
+    RoomsDAO = new RoomDAOs.FS();
+    UsersDAO = new UserDAOs.FS();
+    ContactsDAO = new ContactDAOs.FS();
     console.log("Using FileSystem for persistence");
     break;
   case "MySQL":
-    BookingsDAO = new BookingsSQL();
-    RoomsDAO = new RoomSQL();
-    UsersDAO = new UsersSQL();
-    ContactsDAO = new ContactsSQL();
+    testDB();
+    BookingsDAO = new BookingDAOs.SQL();
+    RoomsDAO = new RoomDAOs.SQL();
+    UsersDAO = new UserDAOs.SQL();
+    ContactsDAO = new ContactDAOs.SQL();
     console.log("Using MySQL for persistence");
     break;
+  case "MONGO":
+    import("../Mongo/config");
+    BookingsDAO = new BookingDAOs.MONGO();
+    RoomsDAO = new RoomDAOs.MONGO();
+    UsersDAO = new UserDAOs.MONGO();
+    ContactsDAO = new ContactDAOs.MONGO();
+    console.log("Using Mongo for persistence");
+    break;
   default:
-    BookingsDAO = new BookingsFS();
-    RoomsDAO = new RoomsFS();
-    UsersDAO = new UsersFS();
-    ContactsDAO = new ContatcsFS();
+    BookingsDAO = new BookingDAOs.FS();
+    RoomsDAO = new RoomDAOs.FS();
+    UsersDAO = new UserDAOs.FS();
+    ContactsDAO = new ContactDAOs.FS();
     break;
 }
 

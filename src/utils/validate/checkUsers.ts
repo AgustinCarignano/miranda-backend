@@ -2,7 +2,7 @@ import { IUser } from "@src/types/users";
 import Joi from "joi";
 
 export const userSchema = Joi.object<IUser>({
-  id: Joi.alternatives().try(Joi.string(), Joi.number()),
+  _id: Joi.alternatives().try(Joi.string(), Joi.number()),
   photo: Joi.string().uri().required(),
   fullName: Joi.string().required(),
   email: Joi.string().email().required(),

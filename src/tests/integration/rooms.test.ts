@@ -1,17 +1,15 @@
 import { request } from "@src/tests/helpers";
-import { testEnvVars, roomObjTest, newRoomTest } from "@src/tests/helpers";
+import { user, token, roomObjTest, newRoomTest } from "@src/tests/helpers";
 import { IRoom } from "@src/types/rooms";
 
 describe("Rooms endpoint", () => {
   const baseUrl = "/api/rooms";
-  const user = {
-    email: testEnvVars.user,
-    password: testEnvVars.password,
-  };
-  let token: string;
-  beforeAll(async () => {
-    token = (await request.post("/api/auth/login").send(user)).body.payload;
-  });
+  //let token: string;
+  let newId: string;
+
+  // beforeAll(async () => {
+  //   token = (await request.post("/api/auth/login").send(user)).body.payload;
+  // });
 
   it("Made a get to '.../' endpoint should return an array of objects of IRoom type", async () => {
     const res = await request
@@ -25,7 +23,7 @@ describe("Rooms endpoint", () => {
   });
   it("Made a get to '.../:id' endpoint should return an especific object of IRoom type", async () => {
     const res = await request
-      .get(`${baseUrl}/${roomObjTest.id}`)
+      .get(`${baseUrl}/${roomObjTest._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -39,8 +37,10 @@ describe("Rooms endpoint", () => {
       .set("Authorization", `bearer ${token}`)
       .send(newRoomTest);
 
+    newId = res.body.payload._id;
+
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -52,12 +52,12 @@ describe("Rooms endpoint", () => {
   });
   it("Made a put to '.../:id' update a specific room object", async () => {
     const res = await request
-      .put(`${baseUrl}/${newRoomTest.id}`)
+      .put(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`)
       .send({ ...newRoomTest, roomNumber: 12345 });
 
     const getRes = await request
-      .get(`${baseUrl}/${res.body.payload.id}`)
+      .get(`${baseUrl}/${res.body.payload._id}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
@@ -75,13 +75,13 @@ describe("Rooms endpoint", () => {
   });
   it("Made a delete to '.../:id' remove a specific room object", async () => {
     const res = await request
-      .get(`${baseUrl}/${newRoomTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const DeleteRes = await request
-      .delete(`${baseUrl}/${newRoomTest.id}`)
+      .delete(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
     const newRes = await request
-      .get(`${baseUrl}/${newRoomTest.id}`)
+      .get(`${baseUrl}/${newId}`)
       .set("Authorization", `bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);

@@ -2,7 +2,7 @@ import { IBookings } from "@src/types/bookings";
 import Joi from "joi";
 
 export const bookingSchema = Joi.object<IBookings>({
-  id: Joi.alternatives().try(Joi.string(), Joi.number()),
+  _id: Joi.alternatives().try(Joi.string(), Joi.number()),
   guest: Joi.string().required(),
   specialRequest: Joi.string().allow("").required(),
   orderDate: Joi.alternatives()

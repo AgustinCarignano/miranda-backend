@@ -1,7 +1,8 @@
 import { RowDataPacket } from "mysql2";
+import { Schema } from "mongoose";
 
 export interface IContact {
-  id: string | number;
+  _id: string | number | Schema.Types.ObjectId;
   fullName: string;
   email: string;
   phone: string;
@@ -13,7 +14,7 @@ export interface IContact {
 }
 
 export interface IContactSQL extends RowDataPacket {
-  id: string | number;
+  _id: string | number;
   fullName: string;
   email: string;
   phone: string;

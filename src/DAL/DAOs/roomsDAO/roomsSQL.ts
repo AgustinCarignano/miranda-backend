@@ -4,7 +4,7 @@ import { IPhotos, IRoom, IRoomSQL, IRoomsDAO } from "@src/types/rooms";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
-export default class RoomSQL implements IRoomsDAO {
+export default class RoomsSQL implements IRoomsDAO {
   async getAllRooms() {
     try {
       const photos = await DBQuery<

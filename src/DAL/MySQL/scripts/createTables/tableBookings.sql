@@ -1,7 +1,7 @@
 #CREATE DATABASE mirandahoteldb;
 use mirandahoteldb;
 CREATE TABLE bookings(
-id INT AUTO_INCREMENT PRIMARY KEY,
+_id INT AUTO_INCREMENT PRIMARY KEY,
 guest TEXT NOT NULL,
 specialRequest TEXT,
 orderDate DATETIME NOT NULL,

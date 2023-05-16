@@ -1,8 +1,11 @@
 import { RowDataPacket } from "mysql2";
 import { IRoom } from "./rooms";
+import { Schema } from "mongoose";
+
+type idType = string | number | Schema.Types.ObjectId;
 
 export interface IBookingsSQL extends RowDataPacket {
-  id: number;
+  _id: number;
   guest: string;
   specialRequest: string;
   orderDate: string;
@@ -16,7 +19,7 @@ export interface IBookingsSQL extends RowDataPacket {
 }
 
 export interface IBookings {
-  id: string | number;
+  _id: idType;
   guest: string;
   specialRequest: string;
   orderDate: string | number;
@@ -24,7 +27,7 @@ export interface IBookings {
   status: string;
   checkIn: string | number;
   checkOut: string | number;
-  roomId: string | number;
+  roomId: idType;
   roomNumber: number;
   roomImg: string;
 }
