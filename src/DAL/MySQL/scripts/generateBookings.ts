@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { OkPacket } from "mysql2";
 import { DBQuery } from "../config";
-import { IRoomSQL } from "../../../../src/types/rooms";
+//import { IRoomSQL } from "../../../../src/types/rooms";
 
 function generateBooking() {
   return {
@@ -24,33 +24,34 @@ function generateBooking() {
       "2022-06-01T00:00:00.000Z",
       "2023-06-01T00:00:00.000Z"
     ),
-    roomId: faker.datatype.number({ min: 1, max: 30 }),
+    roomId: faker.datatype.number({ min: 1, max: 20 }),
   };
 }
 
-export async function populateBookings(total: number, roomsArr: IRoomSQL[]) {
+export async function populateBookings(total: number) {
   for (let i = 0; i < total; i++) {
     const booking = generateBooking();
-    const room = roomsArr.find((item: IRoomSQL) => item.id === booking.roomId);
-    if (room) {
-      DBQuery<OkPacket>(
-        "INSERT INTO bookings (guest, specialRequest, orderDate, roomType, status, checkIn, checkOut, roomId, roomNumber, roomImg) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [
-          booking.guest,
-          booking.specialRequest,
-          booking.orderDate.toISOString().replace("T", " ").replace("Z", ""),
-          room.roomType,
-          booking.status,
-          booking.checkIn.toISOString().replace("T", " ").replace("Z", ""),
-          booking.checkOut.toISOString().replace("T", " ").replace("Z", ""),
-          booking.roomId,
-          room.roomNumber,
-          room.photos.split(",")[0],
-        ]
-      );
-    }
+    //const room = roomsArr.find((item: IRoomSQL) => item.id === booking.roomId);
+    //if (room) {
+    DBQuery<OkPacket>(
+      "INSERT INTO bookings (guest, specialRequest, orderDate, status, checkIn, checkOut, roomId) VALUES (?,?,?,?,?,?,?)",
+      [
+        booking.guest,
+        booking.specialRequest,
+        booking.orderDate.toISOString().replace("T", " ").replace("Z", ""),
+        booking.status,
+        booking.checkIn.toISOString().replace("T", " ").replace("Z", ""),
+        booking.checkOut.toISOString().replace("T", " ").replace("Z", ""),
+        booking.roomId,
+      ]
+    );
+    //}
   }
 }
+
+// room.roomType,
+// room.roomNumber,
+// room.photos.split(",")[0],
 
 // roomType: faker.helpers.arrayElement([
 //   "Suite",

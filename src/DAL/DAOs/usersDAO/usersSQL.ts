@@ -21,7 +21,7 @@ export default class UsersSQL implements IUsersDAO {
     if (typeof id === "string") id = Number(id);
     try {
       const users = await DBQuery<IUserSQL[]>(
-        "SELECT * FROM users WHERE id=?",
+        "SELECT * FROM users WHERE _id=?",
         [id]
       );
       if (users.length === 0)
@@ -68,7 +68,7 @@ export default class UsersSQL implements IUsersDAO {
       obj.startDate = new Date(obj.startDate).toISOString();
     try {
       const resp = await DBQuery<OkPacket>(
-        "UPDATE users SET photo=?, fullName=?, email=?, startDate=?, description=?, contact=?, status=?, role=?, password=? WHERE id = ?",
+        "UPDATE users SET photo=?, fullName=?, email=?, startDate=?, description=?, contact=?, status=?, role=?, password=? WHERE _id = ?",
         [
           obj.photo,
           obj.fullName,
@@ -128,7 +128,7 @@ export default class UsersSQL implements IUsersDAO {
   async deleteUser(id: string | number) {
     if (typeof id === "string") id = Number(id);
     try {
-      const resp = await DBQuery<OkPacket>("DELETE FROM users WHERE id= ?", [
+      const resp = await DBQuery<OkPacket>("DELETE FROM users WHERE _id= ?", [
         id,
       ]);
       if (!resp)

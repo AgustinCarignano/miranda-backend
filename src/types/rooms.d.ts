@@ -11,7 +11,7 @@ export interface IRoomSQL extends RowDataPacket {
   discount: number;
   cancellation: string;
   status: string;
-  amenities: string[];
+  amenities: string;
 }
 
 export interface IRoom {
@@ -39,5 +39,17 @@ export interface IRoomsDAO {
 
 export interface IPhotos extends RowDataPacket {
   id: string | number;
-  photos: string[];
+  photos: string;
+}
+
+export interface IRoom_Photos extends RowDataPacket {
+  id: number;
+  roomId: number;
+  url: string;
+}
+
+export interface IRooms_Amenities extends RowDataPacket {
+  id: number;
+  roomId: number;
+  amenityId: number;
 }

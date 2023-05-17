@@ -1,29 +1,37 @@
 import { OkPacket } from "mysql2";
 import { DBQuery } from "@src/DAL/MySQL/config";
-import { IPhotos, IRoom, IRoomSQL, IRoomsDAO } from "@src/types/rooms";
+import {
+  IPhotos,
+  IRoom,
+  IRoomSQL,
+  IRoom_Photos,
+  IRoomsDAO,
+  IRooms_Amenities,
+} from "@src/types/rooms";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
 
 export default class RoomsSQL implements IRoomsDAO {
   async getAllRooms() {
     try {
-      const photos = await DBQuery<
+      const photosData = await DBQuery<
         IPhotos[]
-      >(`select rooms.id, concat("[",GROUP_CONCAT(room_photos.url),"]") as photos from rooms
-          inner join room_photos on rooms.id=room_photos.roomId
-          group by rooms.id`);
+      >(`select rooms._id, GROUP_CONCAT(room_photos.url) as photos from rooms
+          inner join room_photos on rooms._id=room_photos.roomId
+          group by rooms._id`);
       const rooms = await DBQuery<
         IRoomSQL[]
-      >(`select rooms.*,  concat("[",GROUP_CONCAT(amenities.item),"]") as amenities from rooms
-          inner join rooms_amenities on rooms.id=rooms_amenities.roomId
+      >(`select rooms.*,  GROUP_CONCAT(amenities.item) as amenities from rooms
+          inner join rooms_amenities on rooms._id=rooms_amenities.roomId
           inner join amenities on amenities.id=rooms_amenities.amenityId
-          group by rooms.id`);
+          group by rooms._id`);
       const completeRooms = rooms.map((room) => {
-        const photoArr = photos.find((img) => img.id === room.id);
+        const photoArr = photosData.find((img) => img._id === room._id);
         return {
           ...room,
           offer: room.offer === 1 ? true : false,
-          photos: photoArr?.photos ?? [""],
+          photos: photoArr?.photos.split(",") || [],
+          amenities: room.amenities.split(","),
         };
       });
       return completeRooms;
@@ -38,19 +46,19 @@ export default class RoomsSQL implements IRoomsDAO {
   async getRoomDetail(id: string | number) {
     if (typeof id === "string") id = Number(id);
     try {
-      const photos = await DBQuery<IPhotos[]>(
-        `select rooms.id, concat("[",GROUP_CONCAT(room_photos.url),"]") as photos from rooms
-          inner join room_photos on rooms.id=room_photos.roomId
-          where rooms.id =?
-          group by rooms.id`,
+      const photosData = await DBQuery<IPhotos[]>(
+        `select rooms._id, concat("[",GROUP_CONCAT(room_photos.url),"]") as photos from rooms
+          inner join room_photos on rooms._id=room_photos.roomId
+          where rooms._id =?
+          group by rooms._id`,
         [id]
       );
       const rooms = await DBQuery<IRoomSQL[]>(
         `select rooms.*, concat("[",GROUP_CONCAT(amenities.item),"]") as amenities from rooms
-          inner join rooms_amenities on rooms.id=rooms_amenities.roomId
+          inner join rooms_amenities on rooms._id=rooms_amenities.roomId
           inner join amenities on amenities.id=rooms_amenities.amenityId
-          where rooms.id=?
-          group by rooms.id`,
+          where rooms._id=?
+          group by rooms._id`,
         [id]
       );
       if (rooms.length === 0)
@@ -58,10 +66,11 @@ export default class RoomsSQL implements IRoomsDAO {
           httpCode: HttpCode.NOT_FOUND,
           description: "Room not found",
         });
-      const completeRoom = {
+      const completeRoom: IRoom = {
         ...rooms[0],
         offer: rooms[0].offer === 1,
-        photos: photos[0].photos,
+        photos: photosData[0].photos.split(","),
+        amenities: rooms[0].amenities.split(","),
       };
       return completeRoom;
     } catch (error) {
@@ -78,9 +87,9 @@ export default class RoomsSQL implements IRoomsDAO {
     if (typeof id === "string") id = Number(id);
     try {
       const resp = await DBQuery<OkPacket>(
-        "UPDATE rooms SET photos=?, roomType=?, description=?, roomNumber=?, offer=?, price=?, discount=?, cancellation=?, status=?, amenities=? WHERE id = ?",
+        "UPDATE rooms SET roomType=?, description=?, roomNumber=?, offer=?, price=?, discount=?, cancellation=?, status=? WHERE _id = ?",
         [
-          obj.photos.join(","),
+          //obj.photos.join(","),
           obj.roomType,
           obj.description,
           obj.roomNumber,
@@ -89,9 +98,25 @@ export default class RoomsSQL implements IRoomsDAO {
           obj.discount,
           obj.cancellation,
           obj.status,
-          obj.amenities.join(","),
+          //obj.amenities.join(","),
           id,
         ]
+      );
+      const photos = await DBQuery<IRoom_Photos[]>(
+        "select * from room_photos where roomId=?",
+        [id]
+      );
+      photos.forEach(async (item, index) => {
+        if (item.url !== obj.photos[index]) {
+          await DBQuery("update room_photos set url =? where id=?", [
+            obj.photos[index],
+            item.id,
+          ]);
+        }
+      });
+      const amenities = await DBQuery<IRooms_Amenities[]>(
+        "select * from rooms_amenities where roomId = ?",
+        [id]
       );
       if (!resp)
         throw new CustomError({
@@ -138,7 +163,7 @@ export default class RoomsSQL implements IRoomsDAO {
   async deleteRoom(id: string | number) {
     if (typeof id === "string") id = Number(id);
     try {
-      const resp = await DBQuery("DELETE FROM rooms WHERE id= ?", [id]);
+      const resp = await DBQuery("DELETE FROM rooms WHERE _id= ?", [id]);
       if (!resp)
         throw new CustomError({
           httpCode: HttpCode.NOT_FOUND,

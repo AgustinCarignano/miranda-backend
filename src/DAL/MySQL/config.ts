@@ -1,8 +1,8 @@
 import mysql from "mysql2/promise";
 import { RowDataPacket, OkPacket } from "mysql2";
 import envVars from "../../../src/envVars";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import { CustomError } from "../../../src/utils/error/customError";
+import { HttpCode } from "../../../src/utils/error/errorEnums";
 
 const config = {
   db: {
@@ -26,7 +26,8 @@ export async function DBQuery<T extends RowDataPacket[] | OkPacket>(
 export function testDB() {
   DBQuery<RowDataPacket[]>("SELECT 1 + 1 AS solution")
     .then((rows) => {
-      console.log(`The solution is: ${rows[0].solution}`);
+      if (rows[0].solution === 2)
+        console.log("Successfully connected to Database");
     })
     .catch((error) => {
       throw new CustomError({
