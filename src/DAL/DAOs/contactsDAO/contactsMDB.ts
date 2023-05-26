@@ -6,7 +6,8 @@ import { HttpCode } from "@src/utils/error/errorEnums";
 export default class ContactsMongo implements IContactDAO {
   model = contactsModel;
   async getAllContacts() {
-    const contacts = await this.model.find<IContact>();
+    const contactsDB = await this.model.find<IContact>();
+    const contacts = contactsDB.map((item) => this.#sanitizateContact(item));
     return contacts;
   }
   async updateContact(id: string, obj: IContact) {
@@ -20,6 +21,20 @@ export default class ContactsMongo implements IContactDAO {
         httpCode: HttpCode.NOT_FOUND,
         description: "Contact not found",
       });
-    return newContact;
+    const contact = this.#sanitizateContact(newContact);
+    return contact;
+  }
+  #sanitizateContact(contact: IContact) {
+    return {
+      _id: contact._id,
+      fullName: contact.fullName,
+      email: contact.email,
+      phone: contact.phone,
+      subject: contact.subject,
+      message: contact.message,
+      date: contact.date,
+      _read: contact._read,
+      archived: contact.archived,
+    };
   }
 }

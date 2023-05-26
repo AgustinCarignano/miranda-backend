@@ -10,6 +10,7 @@ export default {
     Exp: process.env.COOKIE_EXP ?? "",
   },
   session: process.env.SESSION_SECRET ?? "",
+  origin: process.env.ALLOW_ORIGIN ?? "",
   test: {
     user: process.env.TEST_USER ?? "",
     password: process.env.TEST_PASS ?? "",

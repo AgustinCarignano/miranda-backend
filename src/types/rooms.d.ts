@@ -26,6 +26,7 @@ export interface IRoom {
   cancellation: string;
   status: string;
   amenities: string[];
+  __v?: number;
 }
 
 export interface IRoomsDAO {

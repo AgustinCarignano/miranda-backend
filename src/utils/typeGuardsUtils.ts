@@ -17,6 +17,12 @@ const isUserType = (input: any): input is IUser => {
   else return false;
 };
 
+const isPartialUserType = (input: any): input is Partial<IUser> => {
+  if ("email" in input && "_id" in input) return true;
+  else return false;
+};
+
 export default {
   isUserType,
+  isPartialUserType,
 } as const;

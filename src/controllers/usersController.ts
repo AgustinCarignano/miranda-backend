@@ -1,6 +1,7 @@
 import DAOs from "@src/DAL/DAOs/factory";
 import { IReq, IRes } from "@src/types/request";
 import { IUser } from "@src/types/users";
+import bcryptUtils from "@src/utils/bcryptUtils";
 //import checkProperties from "@src/utils/checkPropertiesUtils";
 import { CustomError } from "@src/utils/error/customError";
 import { HttpCode } from "@src/utils/error/errorEnums";
@@ -38,9 +39,14 @@ class UsersController {
       const validatedUser = await validateUtils.userSchema.validateAsync(obj, {
         abortEarly: false,
       });
-      const newUser = await DAOs.UsersDAO.createUser(validatedUser);
+      const hashPass = await bcryptUtils.getHash(validatedUser.password);
+      const newUser = await DAOs.UsersDAO.createUser({
+        ...validatedUser,
+        password: hashPass,
+      });
       res.json({ message: "Success creating the user", payload: newUser });
     } catch (error) {
+      console.log(error);
       throw new CustomError({
         httpCode: HttpCode.BAD_REQUEST,
         description: error.message,

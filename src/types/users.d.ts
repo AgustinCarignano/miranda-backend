@@ -27,6 +27,7 @@ export interface IUser {
   status: string;
   role: string;
   password: string;
+  __v?: number;
 }
 
 export interface IUsersDAO {

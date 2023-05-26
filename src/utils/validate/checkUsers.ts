@@ -19,7 +19,6 @@ export const userSchema = Joi.object<IUser>({
   role: Joi.string()
     .valid("Room Services", "Manager", "Receptionist")
     .required(),
-  password: Joi.string()
-    .regex(/^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/)
-    .required(),
+  password: Joi.string().required(),
 });
+// .regex(/^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/)

@@ -30,6 +30,7 @@ export interface IBookings {
   roomId: idType;
   roomNumber: number;
   roomImg: string;
+  __v?: number;
 }
 
 export interface IBookingsDAO {

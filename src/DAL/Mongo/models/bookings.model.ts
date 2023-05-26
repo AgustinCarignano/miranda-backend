@@ -8,7 +8,7 @@ const bookingSchema = new Schema<IBookings>({
   },
   specialRequest: {
     type: String,
-    required: true,
+    default: " ",
   },
   orderDate: {
     type: Number,

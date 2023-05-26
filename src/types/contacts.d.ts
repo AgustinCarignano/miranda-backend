@@ -11,6 +11,7 @@ export interface IContact {
   date: string | number;
   _read: boolean;
   archived: boolean;
+  __v?: number;
 }
 
 export interface IContactSQL extends RowDataPacket {
