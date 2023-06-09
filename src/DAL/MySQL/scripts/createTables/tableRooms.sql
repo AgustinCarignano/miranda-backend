@@ -1,6 +1,7 @@
 use mirandahoteldb;
 CREATE TABLE rooms(
     _id INT AUTO_INCREMENT PRIMARY KEY,
+    photos TEXT NOT NULL,
     roomType enum(
       "Suite",
       "Double Superior",
@@ -16,7 +17,8 @@ CREATE TABLE rooms(
     `status` enum(
       "Available",
       "Booked"
-    ) NOT NULL
+    ) NOT NULL,
+    amenities TEXT NOT NULL
 )
 
 -- photos TEXT NOT NULL,

@@ -6,7 +6,7 @@ CREATE TABLE contacts(
     phone VARCHAR(255) NOT NULL,
     subject TEXT NOT NULL,
     message TEXT NOT NULL,
-    date DATETIME NOT NULL,
-    _read BOOLEAN NOT NULL,
-    archived BOOLEAN NOT NULL
+    date DATETIME NOT NULL default current_timestamp,
+    _read BOOLEAN NOT NULL default false,
+    archived BOOLEAN NOT NULL default false
 );

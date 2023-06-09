@@ -4,11 +4,16 @@ import { DBQuery } from "../config";
 //import { IRoomSQL } from "../../../../src/types/rooms";
 
 function generateBooking() {
+  let checkIn = faker.date.between(
+    "2023-04-01T00:00:00.000Z",
+    "2023-12-01T00:00:00.000Z"
+  );
+  let days = faker.datatype.number({ min: 2, max: 10 });
   return {
     guest: faker.name.fullName(),
     specialRequest: faker.lorem.text(),
     orderDate: faker.date.between(
-      "2022-06-01T00:00:00.000Z",
+      "2023-01-01T00:00:00.000Z",
       "2023-06-01T00:00:00.000Z"
     ),
     status: faker.helpers.arrayElement([
@@ -16,14 +21,8 @@ function generateBooking() {
       "Check Out",
       "In Progress",
     ]),
-    checkIn: faker.date.between(
-      "2022-06-01T00:00:00.000Z",
-      "2023-06-01T00:00:00.000Z"
-    ),
-    checkOut: faker.date.between(
-      "2022-06-01T00:00:00.000Z",
-      "2023-06-01T00:00:00.000Z"
-    ),
+    checkIn: checkIn,
+    checkOut: new Date(checkIn.getTime() + days * 24 * 3600 * 1000),
     roomId: faker.datatype.number({ min: 1, max: 20 }),
   };
 }
@@ -33,7 +32,7 @@ export async function populateBookings(total: number) {
     const booking = generateBooking();
     //const room = roomsArr.find((item: IRoomSQL) => item.id === booking.roomId);
     //if (room) {
-    DBQuery<OkPacket>(
+    await DBQuery<OkPacket>(
       "INSERT INTO bookings (guest, specialRequest, orderDate, status, checkIn, checkOut, roomId) VALUES (?,?,?,?,?,?,?)",
       [
         booking.guest,

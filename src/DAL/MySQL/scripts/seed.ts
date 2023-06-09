@@ -8,10 +8,10 @@ import { populateUsers } from "./generateUsers";
 import { populateContacts } from "./generateContacts";
 
 async function main() {
-  await populateRooms(20);
+  //await populateRooms(20);
   //const rooms = await DBQuery<IRoomSQL[]>("SELECT * FROM rooms");
-  await populateBookings(30);
-  await populateUsers(19);
+  //await populateBookings(30);
+  // await populateUsers(19);
   await populateContacts(30);
 }
 
