@@ -1,6 +1,5 @@
 export default {
   Port: process.env.PORT ?? "",
-  Dao: process.env.DAO ?? "FileSystem",
   CookieProps: {
     Key: "CookieKey",
     Secret: process.env.COOKIE_SECRET ?? "",

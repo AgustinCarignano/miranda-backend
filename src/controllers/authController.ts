@@ -1,5 +1,5 @@
 import { IReq, IRes } from "@src/types/request";
-import { IUser, UserIdType } from "@src/types/users";
+import { IUser } from "@src/types/users";
 import jwtUtils from "@src/utils/jwtUtils";
 import typeGuardsUtils from "@src/utils/typeGuardsUtils";
 
