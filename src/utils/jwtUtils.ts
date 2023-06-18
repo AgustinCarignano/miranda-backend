@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import envVars from "@src/envVars";
-import { UserIdType } from "@src/types/users";
+import envVars from "../envVars";
+import { UserIdType } from "../types/users";
 
 async function generateToken(obj: { _id: UserIdType; email: string }) {
   return jwt.sign({ user: obj }, envVars.jwt.Secret, {

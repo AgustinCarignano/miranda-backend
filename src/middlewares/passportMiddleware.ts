@@ -1,12 +1,12 @@
-import envVars from "@src/envVars";
-import DAOs from "@src/DAL/DAOs/factory";
-import { IUser } from "@src/types/users";
+import envVars from "../envVars";
+import DAOs from "../DAL/DAOs/factory";
+import { IUser } from "../types/users";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
-import bcryptUtils from "@src/utils/bcryptUtils";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import bcryptUtils from "../utils/bcryptUtils";
+import { CustomError } from "../utils/error/customError";
+import { HttpCode } from "../utils/error/errorEnums";
 
 passport.use(
   "login",

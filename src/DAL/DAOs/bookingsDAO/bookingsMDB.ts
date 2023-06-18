@@ -1,7 +1,7 @@
-import bookingsModel from "@src/DAL/Mongo/models/bookings.model";
-import { IBookingsDAO, IBookings } from "@src/types/bookings";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import bookingsModel from "../../Mongo/models/bookings.model";
+import { IBookingsDAO, IBookings } from "../../../types/bookings";
+import { CustomError } from "../../../utils/error/customError";
+import { HttpCode } from "../../../utils/error/errorEnums";
 
 export default class BookingsMongo implements IBookingsDAO {
   model = bookingsModel;

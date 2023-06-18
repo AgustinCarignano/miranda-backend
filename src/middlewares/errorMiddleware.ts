@@ -1,4 +1,4 @@
-import { CustomError } from "@src/utils/error/customError";
+import { CustomError } from "../utils/error/customError";
 import { NextFunction, Request, Response } from "express";
 
 export async function handleError(

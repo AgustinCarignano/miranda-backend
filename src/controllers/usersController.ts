@@ -1,11 +1,10 @@
-import DAOs from "@src/DAL/DAOs/factory";
-import { IReq, IRes } from "@src/types/request";
-import { IUser } from "@src/types/users";
-import bcryptUtils from "@src/utils/bcryptUtils";
-//import checkProperties from "@src/utils/checkPropertiesUtils";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
-import { validateUtils } from "@src/utils/validate";
+import DAOs from "../DAL/DAOs/factory";
+import { IReq, IRes } from "../types/request";
+import { IUser } from "../types/users";
+import bcryptUtils from "../utils/bcryptUtils";
+import { CustomError } from "../utils/error/customError";
+import { HttpCode } from "../utils/error/errorEnums";
+import { validateUtils } from "../utils/validate";
 
 class UsersController {
   async getAllUsers(_req: IReq<IUser>, res: IRes<IUser[]>) {

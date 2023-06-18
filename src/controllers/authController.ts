@@ -1,7 +1,7 @@
-import { IReq, IRes } from "@src/types/request";
-import { IUser } from "@src/types/users";
-import jwtUtils from "@src/utils/jwtUtils";
-import typeGuardsUtils from "@src/utils/typeGuardsUtils";
+import { IReq, IRes } from "../types/request";
+import { IUser } from "../types/users";
+import jwtUtils from "../utils/jwtUtils";
+import typeGuardsUtils from "../utils/typeGuardsUtils";
 
 class AuthController {
   async userLogin(

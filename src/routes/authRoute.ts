@@ -1,7 +1,7 @@
-import authController from "@src/controllers/authController";
+import authController from "../controllers/authController";
 import passport from "passport";
 import { Router } from "express";
-import { isAuth } from "@src/middlewares/isAuthMiddleware";
+import { isAuth } from "../middlewares/isAuthMiddleware";
 
 const router = Router();
 

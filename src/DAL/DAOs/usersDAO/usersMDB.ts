@@ -1,7 +1,7 @@
-import usersModel from "@src/DAL/Mongo/models/users.model";
-import { IUser, IUsersDAO } from "@src/types/users";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import usersModel from "../../Mongo/models/users.model";
+import { IUser, IUsersDAO } from "../../../types/users";
+import { CustomError } from "../../../utils/error/customError";
+import { HttpCode } from "../../../utils/error/errorEnums";
 
 export default class UsersMongo implements IUsersDAO {
   model = usersModel;

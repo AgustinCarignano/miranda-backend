@@ -1,7 +1,7 @@
-import contactsModel from "@src/DAL/Mongo/models/contacts.model";
-import { IContact, IContactDAO } from "@src/types/contacts";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import contactsModel from "../../Mongo/models/contacts.model";
+import { IContact, IContactDAO } from "../../../types/contacts";
+import { CustomError } from "../../../utils/error/customError";
+import { HttpCode } from "../../../utils/error/errorEnums";
 
 export default class ContactsMongo implements IContactDAO {
   model = contactsModel;

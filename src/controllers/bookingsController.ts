@@ -1,10 +1,9 @@
-import DAOs from "@src/DAL/DAOs/factory";
-import { IBookings } from "@src/types/bookings";
-import { IReq, IRes } from "@src/types/request";
-//import checkProperties from "@src/utils/checkPropertiesUtils";
-import { validateUtils } from "@src/utils/validate";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import DAOs from "../DAL/DAOs/factory";
+import { IBookings } from "../types/bookings";
+import { IReq, IRes } from "../types/request";
+import { validateUtils } from "../utils/validate";
+import { CustomError } from "../utils/error/customError";
+import { HttpCode } from "../utils/error/errorEnums";
 
 class BookingsController {
   async getAllBookings(_req: IReq<IBookings>, res: IRes<IBookings[]>) {

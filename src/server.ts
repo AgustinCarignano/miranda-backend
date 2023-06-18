@@ -5,9 +5,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "passport";
 import "express-async-errors";
-import routes from "@src/routes/index";
+import routes from "./routes/index";
 
-import "@src/middlewares/passportMiddleware";
+import "./middlewares/passportMiddleware";
 import envVars from "./envVars";
 import { isAuth } from "./middlewares/isAuthMiddleware";
 import { handleError } from "./middlewares/errorMiddleware";

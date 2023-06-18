@@ -1,9 +1,9 @@
-import bookingsRouter from "@src/routes/bookingsRoute";
-import roomsRouter from "@src/routes/roomsRoute";
-import usersRouter from "@src/routes/usersRoute";
-import contactsRouter from "@src/routes/contactsRoute";
-import authRouter from "@src/routes/authRoute";
-import publicRouter from "@src/routes/publicRoute";
+import bookingsRouter from "./bookingsRoute";
+import roomsRouter from "./roomsRoute";
+import usersRouter from "./usersRoute";
+import contactsRouter from "./contactsRoute";
+import authRouter from "./authRoute";
+import publicRouter from "./publicRoute";
 
 export default {
   bookingsRouter,

@@ -1,7 +1,7 @@
-import { IBookingsDAO } from "@src/types/bookings";
-import { IRoomsDAO } from "@src/types/rooms";
-import { IUsersDAO } from "@src/types/users";
-import { IContactDAO } from "@src/types/contacts";
+import { IBookingsDAO } from "../../types/bookings";
+import { IRoomsDAO } from "../../types/rooms";
+import { IUsersDAO } from "../../types/users";
+import { IContactDAO } from "../../types/contacts";
 import BookingDAOs from "./bookingsDAO/bookingIndex";
 import RoomDAOs from "./roomsDAO/roomIndex";
 import UserDAOs from "./usersDAO/userIndex";
@@ -17,6 +17,5 @@ BookingsDAO = new BookingDAOs.MONGO();
 RoomsDAO = new RoomDAOs.MONGO();
 UsersDAO = new UserDAOs.MONGO();
 ContactsDAO = new ContactDAOs.MONGO();
-console.log("Successfully connected to database");
 
 export default { BookingsDAO, RoomsDAO, UsersDAO, ContactsDAO };

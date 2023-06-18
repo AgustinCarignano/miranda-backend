@@ -1,4 +1,4 @@
-import { IUser } from "@src/types/users";
+import { IUser } from "../types/users";
 
 const isUserType = (input: any): input is IUser => {
   if (

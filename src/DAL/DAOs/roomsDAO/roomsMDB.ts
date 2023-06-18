@@ -1,7 +1,7 @@
-import roomsModel from "@src/DAL/Mongo/models/rooms.model";
-import { IRoom, IRoomsDAO } from "@src/types/rooms";
-import { CustomError } from "@src/utils/error/customError";
-import { HttpCode } from "@src/utils/error/errorEnums";
+import roomsModel from "../../Mongo/models/rooms.model";
+import { IRoom, IRoomsDAO } from "../../../types/rooms";
+import { CustomError } from "../../../utils/error/customError";
+import { HttpCode } from "../../../utils/error/errorEnums";
 
 export default class RoomsMongo implements IRoomsDAO {
   model = roomsModel;

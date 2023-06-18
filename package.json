@@ -5,7 +5,7 @@
     "build": "npx ts-node build.ts",
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
-    "start": "node -r module-alias/register ./dist --env=development",
+    "start": "node ./dist",
     "dev": "nodemon",
     "test": "jest",
     "oldTest": "nodemon --config ./spec/nodemon.json",
