@@ -1,4 +1,5 @@
-import bcrypt from "bcrypt";
+// import bcrypt from "bcryptjs";
+const bcrypt = require("bcryptjs");
 
 const SALT_ROUNDS = 12;
 
@@ -14,8 +15,13 @@ function compare(pwd: string, hash: string): Promise<boolean> {
   return bcrypt.compare(pwd, hash);
 }
 
+function compareSync(pwd: string, hash: string): boolean {
+  return bcrypt.compareSync(pwd, hash);
+}
+
 export default {
   getHash,
   getHashSync,
   compare,
+  compareSync,
 } as const;

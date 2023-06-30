@@ -18,11 +18,10 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await DAOs.UsersDAO.getUserByEmail(email);
-        if (!user) return done(null, false, { message: "User not found" });
+        if (!user) return done(null, false);
         const isValidPass = await bcryptUtils.compare(password, user.password);
-        if (!isValidPass)
-          return done(null, false, { message: "Incorrect credentials" });
-        return done(null, user, { message: "Logged in successfully" });
+        if (!isValidPass) return done(null, false);
+        return done(null, user);
       } catch (error) {
         return done(error);
       }
